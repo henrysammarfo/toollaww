@@ -17,7 +17,11 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ProductRouteImport } from './routes/product'
 import { Route as SkillsRouteImport } from './routes/skills'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as DashboardApprovalsRouteImport } from './routes/dashboard.approvals'
+import { Route as DashboardAttacksRouteImport } from './routes/dashboard.attacks'
+import { Route as DashboardEvidenceRouteImport } from './routes/dashboard.evidence'
 import { Route as DashboardPoliciesRouteImport } from './routes/dashboard.policies'
+import { Route as DashboardRolesRouteImport } from './routes/dashboard.roles'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -59,9 +63,29 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardApprovalsRoute = DashboardApprovalsRouteImport.update({
+  id: '/approvals',
+  path: '/approvals',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardAttacksRoute = DashboardAttacksRouteImport.update({
+  id: '/attacks',
+  path: '/attacks',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardEvidenceRoute = DashboardEvidenceRouteImport.update({
+  id: '/evidence',
+  path: '/evidence',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardPoliciesRoute = DashboardPoliciesRouteImport.update({
   id: '/policies',
   path: '/policies',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardRolesRoute = DashboardRolesRouteImport.update({
+  id: '/roles',
+  path: '/roles',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -73,7 +97,11 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/product': typeof ProductRoute
   '/skills': typeof SkillsRoute
+  '/dashboard/approvals': typeof DashboardApprovalsRoute
+  '/dashboard/attacks': typeof DashboardAttacksRoute
+  '/dashboard/evidence': typeof DashboardEvidenceRoute
   '/dashboard/policies': typeof DashboardPoliciesRoute
+  '/dashboard/roles': typeof DashboardRolesRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
@@ -83,7 +111,11 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/product': typeof ProductRoute
   '/skills': typeof SkillsRoute
+  '/dashboard/approvals': typeof DashboardApprovalsRoute
+  '/dashboard/attacks': typeof DashboardAttacksRoute
+  '/dashboard/evidence': typeof DashboardEvidenceRoute
   '/dashboard/policies': typeof DashboardPoliciesRoute
+  '/dashboard/roles': typeof DashboardRolesRoute
   '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
@@ -95,7 +127,11 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/product': typeof ProductRoute
   '/skills': typeof SkillsRoute
+  '/dashboard/approvals': typeof DashboardApprovalsRoute
+  '/dashboard/attacks': typeof DashboardAttacksRoute
+  '/dashboard/evidence': typeof DashboardEvidenceRoute
   '/dashboard/policies': typeof DashboardPoliciesRoute
+  '/dashboard/roles': typeof DashboardRolesRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
@@ -108,7 +144,11 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/product'
     | '/skills'
+    | '/dashboard/approvals'
+    | '/dashboard/attacks'
+    | '/dashboard/evidence'
     | '/dashboard/policies'
+    | '/dashboard/roles'
     | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -118,7 +158,11 @@ export interface FileRouteTypes {
     | '/contact'
     | '/product'
     | '/skills'
+    | '/dashboard/approvals'
+    | '/dashboard/attacks'
+    | '/dashboard/evidence'
     | '/dashboard/policies'
+    | '/dashboard/roles'
     | '/dashboard'
   id:
     | '__root__'
@@ -129,7 +173,11 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/product'
     | '/skills'
+    | '/dashboard/approvals'
+    | '/dashboard/attacks'
+    | '/dashboard/evidence'
     | '/dashboard/policies'
+    | '/dashboard/roles'
     | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
@@ -201,6 +249,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/approvals': {
+      id: '/dashboard/approvals'
+      path: '/approvals'
+      fullPath: '/dashboard/approvals'
+      preLoaderRoute: typeof DashboardApprovalsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/attacks': {
+      id: '/dashboard/attacks'
+      path: '/attacks'
+      fullPath: '/dashboard/attacks'
+      preLoaderRoute: typeof DashboardAttacksRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/evidence': {
+      id: '/dashboard/evidence'
+      path: '/evidence'
+      fullPath: '/dashboard/evidence'
+      preLoaderRoute: typeof DashboardEvidenceRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/policies': {
       id: '/dashboard/policies'
       path: '/policies'
@@ -208,16 +277,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardPoliciesRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/roles': {
+      id: '/dashboard/roles'
+      path: '/roles'
+      fullPath: '/dashboard/roles'
+      preLoaderRoute: typeof DashboardRolesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
 
 interface DashboardRouteChildren {
+  DashboardApprovalsRoute: typeof DashboardApprovalsRoute
+  DashboardAttacksRoute: typeof DashboardAttacksRoute
+  DashboardEvidenceRoute: typeof DashboardEvidenceRoute
   DashboardPoliciesRoute: typeof DashboardPoliciesRoute
+  DashboardRolesRoute: typeof DashboardRolesRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardApprovalsRoute: DashboardApprovalsRoute,
+  DashboardAttacksRoute: DashboardAttacksRoute,
+  DashboardEvidenceRoute: DashboardEvidenceRoute,
   DashboardPoliciesRoute: DashboardPoliciesRoute,
+  DashboardRolesRoute: DashboardRolesRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 
