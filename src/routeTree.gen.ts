@@ -16,6 +16,8 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ProductRouteImport } from './routes/product'
 import { Route as SkillsRouteImport } from './routes/skills'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as DashboardPoliciesRouteImport } from './routes/dashboard.policies'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,24 +54,37 @@ const SkillsRoute = SkillsRouteImport.update({
   path: '/skills',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardPoliciesRoute = DashboardPoliciesRouteImport.update({
+  id: '/policies',
+  path: '/policies',
+  getParentRoute: () => DashboardRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/architecture': typeof ArchitectureRoute
   '/case-studies': typeof CaseStudiesRoute
   '/contact': typeof ContactRoute
-  '/dashboard': typeof DashboardRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/product': typeof ProductRoute
   '/skills': typeof SkillsRoute
+  '/dashboard/policies': typeof DashboardPoliciesRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/architecture': typeof ArchitectureRoute
   '/case-studies': typeof CaseStudiesRoute
   '/contact': typeof ContactRoute
-  '/dashboard': typeof DashboardRoute
   '/product': typeof ProductRoute
   '/skills': typeof SkillsRoute
+  '/dashboard/policies': typeof DashboardPoliciesRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -77,9 +92,11 @@ export interface FileRoutesById {
   '/architecture': typeof ArchitectureRoute
   '/case-studies': typeof CaseStudiesRoute
   '/contact': typeof ContactRoute
-  '/dashboard': typeof DashboardRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/product': typeof ProductRoute
   '/skills': typeof SkillsRoute
+  '/dashboard/policies': typeof DashboardPoliciesRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,15 +108,18 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/product'
     | '/skills'
+    | '/dashboard/policies'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/architecture'
     | '/case-studies'
     | '/contact'
-    | '/dashboard'
     | '/product'
     | '/skills'
+    | '/dashboard/policies'
+    | '/dashboard'
   id:
     | '__root__'
     | '/'
@@ -109,6 +129,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/product'
     | '/skills'
+    | '/dashboard/policies'
+    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -116,7 +138,7 @@ export interface RootRouteChildren {
   ArchitectureRoute: typeof ArchitectureRoute
   CaseStudiesRoute: typeof CaseStudiesRoute
   ContactRoute: typeof ContactRoute
-  DashboardRoute: typeof DashboardRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   ProductRoute: typeof ProductRoute
   SkillsRoute: typeof SkillsRoute
 }
@@ -172,15 +194,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SkillsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/policies': {
+      id: '/dashboard/policies'
+      path: '/policies'
+      fullPath: '/dashboard/policies'
+      preLoaderRoute: typeof DashboardPoliciesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
+
+interface DashboardRouteChildren {
+  DashboardPoliciesRoute: typeof DashboardPoliciesRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardPoliciesRoute: DashboardPoliciesRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ArchitectureRoute: ArchitectureRoute,
   CaseStudiesRoute: CaseStudiesRoute,
   ContactRoute: ContactRoute,
-  DashboardRoute: DashboardRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   ProductRoute: ProductRoute,
   SkillsRoute: SkillsRoute,
 }
