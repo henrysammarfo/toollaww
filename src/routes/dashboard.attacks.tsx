@@ -3,34 +3,25 @@ import { useState } from "react";
 import { Play, ShieldAlert } from "lucide-react";
 import { toast } from "sonner";
 import { type Attempt } from "@/lib/toollaw-data";
-import { enforce } from "@/lib/enforce";
 import { DecisionBadge } from "./dashboard.index";
-import unhalt from "../../fixtures/attack-unhalt.json";
-import redeem from "../../fixtures/attack-redeem.json";
-import peer from "../../fixtures/attack-env-peer.json";
-import health from "../../fixtures/allow-health.json";
+import { prependReceipts } from "@/lib/receipts";
+import type { Receipt } from "@/lib/kernel";
 
-const pack = [unhalt, redeem, peer, health] as const;
-
-function toAttempt(
-  fixture: (typeof pack)[number],
-  result: ReturnType<typeof enforce>,
-  id: string,
-): Attempt {
+function receiptToAttempt(r: Receipt): Attempt {
   return {
-    id,
-    principal: fixture.principal,
-    skill: fixture.skill,
-    tool: fixture.tool,
-    args: JSON.stringify(fixture.args),
-    risk: result.risk,
-    mutate: result.mutate,
-    decision: result.decision,
-    executed: result.executed,
-    ticketId: null,
-    evidenceSha256: null,
-    state: result.decision === "ALLOW" ? "CLOSED" : "BLOCKED",
-    at: new Date().toISOString().slice(11, 19),
+    id: r.id,
+    principal: r.principal,
+    skill: r.skill,
+    tool: r.tool,
+    args: JSON.stringify(r.args),
+    risk: r.risk,
+    mutate: r.mutate,
+    decision: r.decision,
+    executed: r.executed,
+    ticketId: r.ticketId,
+    evidenceSha256: r.evidenceSha256,
+    state: r.decision === "ALLOW" ? "CLOSED" : "BLOCKED",
+    at: r.ts.slice(11, 19),
   };
 }
 
@@ -40,11 +31,9 @@ export const Route = createFileRoute("/dashboard/attacks")({
       { title: "Red Team — TOOLLAW Console" },
       {
         name: "description",
-        content:
-          "Fire the attack pack at the fail-closed gate. Forbidden tools stay executed:false; health read is ALLOW.",
+        content: "Fire the attack pack through the live /api/mcp gate.",
       },
       { property: "og:title", content: "Red Team — TOOLLAW Console" },
-      { property: "og:description", content: "Attack pack against the fail-closed gate." },
     ],
   }),
   component: AttacksPage,
@@ -54,26 +43,39 @@ function AttacksPage() {
   const [log, setLog] = useState<Attempt[]>([]);
   const [running, setRunning] = useState(false);
 
-  const run = () => {
+  const run = async () => {
     setRunning(true);
     setLog([]);
-    toast("Attack pack armed", { description: "Worker red is firing fixture Skills." });
-    pack.forEach((fixture, i) => {
-      window.setTimeout(() => {
-        const result = enforce({
-          principal: fixture.principal,
-          tool: fixture.tool,
-          args: fixture.args as Record<string, unknown>,
-        });
-        setLog((prev) => [toAttempt(fixture, result, `${fixture.id}-${prev.length}`), ...prev]);
-        if (i === pack.length - 1) {
-          setRunning(false);
-          toast.success("Pack complete", {
-            description: "Mutating fixtures BLOCK. Health read ALLOW.",
-          });
-        }
-      }, 350 * (i + 1));
-    });
+    toast("Attack pack armed", { description: "POST /api/mcp tools/call toollaw.redteam" });
+    try {
+      const res = await fetch("/api/mcp", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          jsonrpc: "2.0",
+          id: 1,
+          method: "tools/call",
+          params: { name: "toollaw.redteam", arguments: {} },
+        }),
+      });
+      const rpc = (await res.json()) as {
+        error?: { message: string };
+        result?: { structuredContent?: Receipt[] };
+      };
+      if (rpc.error) throw new Error(rpc.error.message);
+      const pack = rpc.result?.structuredContent ?? [];
+      prependReceipts(pack);
+      setLog(pack.map(receiptToAttempt).reverse());
+      toast.success("Pack complete", {
+        description: "Mutating fixtures BLOCK. Health read ALLOW. Receipts hashed.",
+      });
+    } catch (err) {
+      toast.error("MCP call failed", {
+        description: err instanceof Error ? err.message : "unknown",
+      });
+    } finally {
+      setRunning(false);
+    }
   };
 
   return (
@@ -84,12 +86,11 @@ function AttacksPage() {
             Red Team
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Worker <span className="font-mono">red</span> attacks only. It can never self-approve.
-            Gate is <span className="font-mono">toollaw.enforce</span>, not a replay of canned rows.
+            Live MCP: <span className="font-mono">toollaw.redteam</span>. Red cannot self-approve.
           </p>
         </div>
         <button
-          onClick={run}
+          onClick={() => void run()}
           disabled={running}
           className="inline-flex shrink-0 items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black transition-transform hover:-translate-y-0.5 disabled:opacity-60"
         >
@@ -105,7 +106,7 @@ function AttacksPage() {
 
         <div className="mt-5 space-y-3">
           {log.length === 0 && (
-            <p className="text-sm text-muted-foreground">Run the pack to compile decisions live.</p>
+            <p className="text-sm text-muted-foreground">Run the pack against /api/mcp.</p>
           )}
           {log.map((a) => (
             <div
@@ -116,7 +117,7 @@ function AttacksPage() {
                 <p className="truncate font-mono text-sm text-foreground">{a.tool}</p>
                 <p className="mt-1 truncate font-mono text-xs text-muted-foreground">{a.args}</p>
                 <p className="mt-2 text-xs text-muted-foreground">
-                  {a.principal} · {a.skill} · risk {a.risk} · executed {String(a.executed)}
+                  {a.principal} · executed {String(a.executed)} · {a.evidenceSha256?.slice(0, 16)}…
                 </p>
               </div>
               <DecisionBadge decision={a.decision} />

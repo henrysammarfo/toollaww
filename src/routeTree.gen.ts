@@ -16,6 +16,8 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ProductRouteImport } from './routes/product'
 import { Route as SkillsRouteImport } from './routes/skills'
+import { Route as ApiHealthRouteImport } from './routes/api/health'
+import { Route as ApiMcpRouteImport } from './routes/api/mcp'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardApprovalsRouteImport } from './routes/dashboard.approvals'
 import { Route as DashboardAttacksRouteImport } from './routes/dashboard.attacks'
@@ -58,6 +60,16 @@ const SkillsRoute = SkillsRouteImport.update({
   path: '/skills',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiHealthRoute = ApiHealthRouteImport.update({
+  id: '/api/health',
+  path: '/api/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiMcpRoute = ApiMcpRouteImport.update({
+  id: '/api/mcp',
+  path: '/api/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -97,6 +109,8 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/product': typeof ProductRoute
   '/skills': typeof SkillsRoute
+  '/api/health': typeof ApiHealthRoute
+  '/api/mcp': typeof ApiMcpRoute
   '/dashboard/approvals': typeof DashboardApprovalsRoute
   '/dashboard/attacks': typeof DashboardAttacksRoute
   '/dashboard/evidence': typeof DashboardEvidenceRoute
@@ -111,6 +125,8 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/product': typeof ProductRoute
   '/skills': typeof SkillsRoute
+  '/api/health': typeof ApiHealthRoute
+  '/api/mcp': typeof ApiMcpRoute
   '/dashboard/approvals': typeof DashboardApprovalsRoute
   '/dashboard/attacks': typeof DashboardAttacksRoute
   '/dashboard/evidence': typeof DashboardEvidenceRoute
@@ -127,6 +143,8 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/product': typeof ProductRoute
   '/skills': typeof SkillsRoute
+  '/api/health': typeof ApiHealthRoute
+  '/api/mcp': typeof ApiMcpRoute
   '/dashboard/approvals': typeof DashboardApprovalsRoute
   '/dashboard/attacks': typeof DashboardAttacksRoute
   '/dashboard/evidence': typeof DashboardEvidenceRoute
@@ -144,6 +162,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/product'
     | '/skills'
+    | '/api/health'
+    | '/api/mcp'
     | '/dashboard/approvals'
     | '/dashboard/attacks'
     | '/dashboard/evidence'
@@ -158,6 +178,8 @@ export interface FileRouteTypes {
     | '/contact'
     | '/product'
     | '/skills'
+    | '/api/health'
+    | '/api/mcp'
     | '/dashboard/approvals'
     | '/dashboard/attacks'
     | '/dashboard/evidence'
@@ -173,6 +195,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/product'
     | '/skills'
+    | '/api/health'
+    | '/api/mcp'
     | '/dashboard/approvals'
     | '/dashboard/attacks'
     | '/dashboard/evidence'
@@ -189,6 +213,8 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRouteWithChildren
   ProductRoute: typeof ProductRoute
   SkillsRoute: typeof SkillsRoute
+  ApiHealthRoute: typeof ApiHealthRoute
+  ApiMcpRoute: typeof ApiMcpRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -240,6 +266,20 @@ declare module '@tanstack/react-router' {
       path: '/skills'
       fullPath: '/skills'
       preLoaderRoute: typeof SkillsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/health': {
+      id: '/api/health'
+      path: '/api/health'
+      fullPath: '/api/health'
+      preLoaderRoute: typeof ApiHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/mcp': {
+      id: '/api/mcp'
+      path: '/api/mcp'
+      fullPath: '/api/mcp'
+      preLoaderRoute: typeof ApiMcpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/': {
@@ -317,6 +357,8 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRouteWithChildren,
   ProductRoute: ProductRoute,
   SkillsRoute: SkillsRoute,
+  ApiHealthRoute: ApiHealthRoute,
+  ApiMcpRoute: ApiMcpRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

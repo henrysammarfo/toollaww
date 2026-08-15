@@ -4,7 +4,10 @@
 
 GitHub: [henrysammarfo/toollaww](https://github.com/henrysammarfo/toollaww) (Lovable). Product name is **TOOLLAW**.
 
-**Live:** [https://toollaww.vercel.app](https://toollaww.vercel.app)
+**Live:** [https://toollaww.vercel.app](https://toollaww.vercel.app)  
+**MCP:** [https://toollaww.vercel.app/api/mcp](https://toollaww.vercel.app/api/mcp) · [health](https://toollaww.vercel.app/api/health)
+
+Prelim clock (Hangzhou): **2026-08-16 23:59 China Standard Time** = **15:59 Ghana (UTC+0)** same day. US Central is not the official clock.
 
 Tool-level allowlist + fail-closed red team on AgentTeams.
 
@@ -17,7 +20,21 @@ Not a trading bot. Not handbook ITSM. Not AgentTeams demo 4. Apache-2.0. No secr
 
 ```sh
 npm i
+npm test
 npm run dev
+```
+
+MCP (stdio):
+
+```sh
+npm run mcp
+```
+
+HTTP (after `npm run dev` or on Vercel):
+
+```sh
+curl -s https://toollaww.vercel.app/api/mcp
+curl -s -H "content-type: application/json" -d "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\"}" https://toollaww.vercel.app/api/mcp
 ```
 
 ```sh

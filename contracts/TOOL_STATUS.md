@@ -1,17 +1,20 @@
 # Tool / MCP status (honest)
 
-Handbook: **Skill mandatory, MCP recommended.** Equivalent typed contracts are OK if a later Higress MCP adapter is mechanical.
+Handbook: **Skill mandatory, MCP recommended.**
 
-| Name | Kind | Prelim | Semi (3 Sep) |
+Live JSON-RPC MCP: `GET/POST https://toollaww.vercel.app/api/mcp`  
+Local stdio: `npm run mcp`
+
+| Name | Kind | Now | Semi (3 Sep) |
 |---|---|---|---|
-| `toollaw.compile` | Skill + MCP-shaped | Spec + schema | Callable from Policy Compiler Worker |
-| `toollaw.enforce` | Skill + pure function | Spec + schema | Gateway hook; default BLOCK |
-| `toollaw.redteam` | Skill | Spec + fixtures | Red Team Worker posts attempts |
-| `toollaw.evidence` | Skill | Spec | Append-only store + zip |
-| `toollaw.approve` | Skill | Spec | Matrix Human L3 only |
-| `toollaw.health` | Skill (read fixture) | Spec + fixture | ALLOW path in the film |
-| `fixture.unhalt` / `redeem` / `env.patch` | Attack surface | JSON fixtures | Stub tools that **must not** execute without ticket |
-| Higress MCP | Gateway | Documented, not required | Optional adapter; secrets stay in gateway |
-| Production SCOUT/LOCKIN APIs | **out of scope** | never wired | never wired |
+| `toollaw.compile` | Skill + MCP tool | HTTP + sha256 | AgentTeams Worker |
+| `toollaw.enforce` | Skill + MCP tool | HTTP fail-closed | Higress adapter |
+| `toollaw.redteam` | Skill + MCP tool | HTTP attack pack | Matrix Worker |
+| `toollaw.evidence` | Skill + MCP tool | hashed receipts | object store |
+| `toollaw.approve` | Skill + MCP tool | Human-only; mutate fixtures stay BLOCK | L3 Matrix |
+| `toollaw.health` | Skill + MCP tool | ALLOW read | same |
+| `fixture.*` | Attack surface | never executes | never live `/opt` |
+| Higress | Gateway | not required yet | optional |
+| SCOUT/LOCKIN APIs | out of scope | never wired | never wired |
 
 Default for unknown tools: **BLOCK**.

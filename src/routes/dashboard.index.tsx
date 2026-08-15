@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { ArrowUpRight, Ban, CheckCircle2, Clock } from "lucide-react";
-import { attempts, loopSteps, POLICY_HASH } from "@/lib/toollaw-data";
+import { attempts, loopSteps } from "@/lib/toollaw-data";
 
 export const Route = createFileRoute("/dashboard/")({
   head: () => ({
@@ -19,6 +20,14 @@ export const Route = createFileRoute("/dashboard/")({
 });
 
 function OverviewPage() {
+  const [liveHash, setLiveHash] = useState("loading…");
+  useEffect(() => {
+    void fetch("/api/health")
+      .then((r) => r.json() as Promise<{ policyHash?: string }>)
+      .then((j) => setLiveHash(j.policyHash ?? "offline"))
+      .catch(() => setLiveHash("offline"));
+  }, []);
+
   const blocked = attempts.filter((a) => a.decision === "BLOCK").length;
   const pending = attempts.filter((a) => a.decision === "REQUIRE_APPROVAL").length;
   const allowed = attempts.filter((a) => a.decision === "ALLOW").length;
@@ -36,7 +45,7 @@ function OverviewPage() {
           <h1 className="font-display truncate text-[clamp(24px,3.4vw,36px)] tracking-[-0.05em]">
             Gate Overview
           </h1>
-          <p className="mt-1 truncate font-mono text-xs text-muted-foreground">{POLICY_HASH}</p>
+          <p className="mt-1 truncate font-mono text-xs text-muted-foreground">{liveHash}</p>
         </div>
         <Link
           to="/dashboard/attacks"

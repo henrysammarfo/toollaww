@@ -9,11 +9,8 @@ export const Route = createFileRoute("/dashboard/approvals")({
       { title: "Approvals — TOOLLAW Console" },
       {
         name: "description",
-        content:
-          "Human L3 tickets for high-risk tool calls. No agent may mint a ticket, and a DENY keeps the call blocked forever.",
+        content: "Human L3 tickets via MCP toollaw.approve. Mutate fixtures stay blocked.",
       },
-      { property: "og:title", content: "Approvals — TOOLLAW Console" },
-      { property: "og:description", content: "Human L3 tickets for high-risk tool calls." },
     ],
   }),
   component: ApprovalsPage,
@@ -22,47 +19,69 @@ export const Route = createFileRoute("/dashboard/approvals")({
 type Ticket = {
   id: string;
   tool: string;
-  args: string;
-  risk: string;
   requestedBy: string;
   status: "OPEN" | "ALLOWED" | "DENIED";
+  note: string;
 };
 
 const seed: Ticket[] = [
   {
-    id: "TKT-3391",
-    tool: "policy.write",
-    args: '{ "version": "v0.9.3" }',
-    risk: "high",
-    requestedBy: "pol",
+    id: "OPEN-health",
+    tool: "toollaw.health",
+    requestedBy: "hum",
     status: "OPEN",
+    note: "Read path — Human may stamp ALLOW. This is the film beat.",
   },
   {
-    id: "TKT-3390",
-    tool: "fleet.health",
-    args: "{}",
-    risk: "low",
-    requestedBy: "red",
-    status: "ALLOWED",
-  },
-  {
-    id: "TKT-3388",
-    tool: "market.unhalt",
-    args: '{ "force": true }',
-    risk: "critical",
-    requestedBy: "red",
-    status: "DENIED",
+    id: "OPEN-unhalt",
+    tool: "fixture.unhalt",
+    requestedBy: "hum",
+    status: "OPEN",
+    note: "v0 demo: even Human cannot authorize this fixture.",
   },
 ];
 
 function ApprovalsPage() {
   const [tickets, setTickets] = useState(seed);
 
-  const decide = (id: string, status: Ticket["status"]) => {
-    setTickets((t) => t.map((x) => (x.id === id ? { ...x, status } : x)));
-    toast[status === "ALLOWED" ? "success" : "error"](`${id} ${status.toLowerCase()}`, {
-      description: status === "DENIED" ? "The call stays blocked." : "Ticket bound to policy hash.",
-    });
+  const decide = async (row: Ticket, allow: boolean) => {
+    if (!allow) {
+      setTickets((t) => t.map((x) => (x.id === row.id ? { ...x, status: "DENIED" } : x)));
+      toast.error(`${row.tool} DENIED`, { description: "The call stays blocked." });
+      return;
+    }
+    try {
+      const res = await fetch("/api/mcp", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          jsonrpc: "2.0",
+          id: 1,
+          method: "tools/call",
+          params: {
+            name: "toollaw.approve",
+            arguments: { principal: "hum", tool: row.tool },
+          },
+        }),
+      });
+      const rpc = (await res.json()) as {
+        error?: { message: string };
+        result?: { structuredContent?: { ok: boolean; ticketId: string; reason?: string } };
+      };
+      if (rpc.error) throw new Error(rpc.error.message);
+      const body = rpc.result?.structuredContent;
+      if (!body?.ok) {
+        setTickets((t) => t.map((x) => (x.id === row.id ? { ...x, status: "DENIED" } : x)));
+        toast.error("Ticket refused", { description: body?.reason ?? "blocked" });
+        return;
+      }
+      setTickets((t) => t.map((x) => (x.id === row.id ? { ...x, status: "ALLOWED" } : x)));
+      toast.success("Ticket issued", { description: body.ticketId });
+    } catch (err) {
+      toast.error("MCP call failed", {
+        description: err instanceof Error ? err.message : "unknown",
+      });
+    }
   };
 
   return (
@@ -72,7 +91,7 @@ function ApprovalsPage() {
           Human Approvals
         </h1>
         <p className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
-          <UserCheck className="size-4 shrink-0" /> L3 human in the Matrix room. No self-approve.
+          <UserCheck className="size-4 shrink-0" /> L3 only. MCP <span className="font-mono">toollaw.approve</span>.
         </p>
       </header>
 
@@ -83,23 +102,19 @@ function ApprovalsPage() {
             className="panel grid gap-4 p-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center"
           >
             <div className="min-w-0">
-              <p className="font-mono text-xs text-muted-foreground">{t.id}</p>
-              <p className="mt-1 truncate font-mono text-sm text-foreground">{t.tool}</p>
-              <p className="mt-1 truncate font-mono text-xs text-muted-foreground">{t.args}</p>
-              <p className="mt-2 text-xs text-muted-foreground">
-                requested by {t.requestedBy} · risk {t.risk}
-              </p>
+              <p className="truncate font-mono text-sm text-foreground">{t.tool}</p>
+              <p className="mt-2 text-xs text-muted-foreground">{t.note}</p>
             </div>
             {t.status === "OPEN" ? (
               <div className="flex shrink-0 gap-2">
                 <button
-                  onClick={() => decide(t.id, "ALLOWED")}
+                  onClick={() => void decide(t, true)}
                   className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-black"
                 >
                   <Check className="size-4" /> Allow
                 </button>
                 <button
-                  onClick={() => decide(t.id, "DENIED")}
+                  onClick={() => void decide(t, false)}
                   className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm text-foreground hover:border-white/50"
                 >
                   <X className="size-4" /> Deny

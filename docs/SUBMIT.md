@@ -14,7 +14,7 @@ Last successful attempt before **2026-08-16 23:59 CST** counts (3 attempts).
 | University | yes | Accra Technical University |
 | Role | yes | Founder (member 2: Co-founder) |
 | **Repository URL** | **no** | optional — you *may* paste `https://github.com/henrysammarfo/toollaww` |
-| **Demo URL** | **no** | leave blank |
+| **Demo URL** | optional | **https://toollaww.vercel.app** (MCP: `/api/mcp`) |
 | **Demo video** | **no** | not required for prelim |
 
 Semi-final **3 Sep** is when a runnable AgentTeams demo / video is required. Do not wait until then to build — start now — but do not block tonight’s form on a deploy.

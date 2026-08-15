@@ -1,5 +1,5 @@
-import type { Decision, Risk } from "@/lib/toollaw-data";
-import policy from "../../fixtures/policy.v0.json";
+import type { Decision, Risk } from "./toollaw-data.ts";
+import policy from "../../fixtures/policy.v0.json" with { type: "json" };
 
 export type EnforceAttempt = {
   principal: string;
