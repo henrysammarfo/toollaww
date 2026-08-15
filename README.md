@@ -11,7 +11,7 @@ Prelim clock (Hangzhou): **2026-08-16 23:59 China Standard Time** = **15:59 Ghan
 
 Tool-level allowlist + fail-closed red team on AgentTeams.
 
-**Bible:** [`docs/TOOLLAW_BIBLE.md`](docs/TOOLLAW_BIBLE.md)  
+**Phases:** [`docs/PHASES.md`](docs/PHASES.md) — 0 done · 1 gateway/capture/traces · 2 in-process crew · 3 AgentTeams sidecar · 4 Hangzhou  
 **Prelim submit:** [`docs/SUBMIT.md`](docs/SUBMIT.md) · zip on Desktop `TOOLLAW-GOAI-prelim.zip`
 
 Not a trading bot. Not handbook ITSM. Not AgentTeams demo 4. Apache-2.0. No secrets in git.

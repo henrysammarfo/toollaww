@@ -16,12 +16,17 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ProductRouteImport } from './routes/product'
 import { Route as SkillsRouteImport } from './routes/skills'
+import { Route as ApiContactRouteImport } from './routes/api/contact'
+import { Route as ApiCrewRouteImport } from './routes/api/crew'
+import { Route as ApiGatewayRouteImport } from './routes/api/gateway'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiMcpRouteImport } from './routes/api/mcp'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardApprovalsRouteImport } from './routes/dashboard.approvals'
 import { Route as DashboardAttacksRouteImport } from './routes/dashboard.attacks'
+import { Route as DashboardCapturesRouteImport } from './routes/dashboard.captures'
 import { Route as DashboardEvidenceRouteImport } from './routes/dashboard.evidence'
+import { Route as DashboardLoopRouteImport } from './routes/dashboard.loop'
 import { Route as DashboardPoliciesRouteImport } from './routes/dashboard.policies'
 import { Route as DashboardRolesRouteImport } from './routes/dashboard.roles'
 
@@ -60,6 +65,21 @@ const SkillsRoute = SkillsRouteImport.update({
   path: '/skills',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiContactRoute = ApiContactRouteImport.update({
+  id: '/api/contact',
+  path: '/api/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCrewRoute = ApiCrewRouteImport.update({
+  id: '/api/crew',
+  path: '/api/crew',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiGatewayRoute = ApiGatewayRouteImport.update({
+  id: '/api/gateway',
+  path: '/api/gateway',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiHealthRoute = ApiHealthRouteImport.update({
   id: '/api/health',
   path: '/api/health',
@@ -85,9 +105,19 @@ const DashboardAttacksRoute = DashboardAttacksRouteImport.update({
   path: '/attacks',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardCapturesRoute = DashboardCapturesRouteImport.update({
+  id: '/captures',
+  path: '/captures',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardEvidenceRoute = DashboardEvidenceRouteImport.update({
   id: '/evidence',
   path: '/evidence',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardLoopRoute = DashboardLoopRouteImport.update({
+  id: '/loop',
+  path: '/loop',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardPoliciesRoute = DashboardPoliciesRouteImport.update({
@@ -109,11 +139,16 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRouteWithChildren
   '/product': typeof ProductRoute
   '/skills': typeof SkillsRoute
+  '/api/contact': typeof ApiContactRoute
+  '/api/crew': typeof ApiCrewRoute
+  '/api/gateway': typeof ApiGatewayRoute
   '/api/health': typeof ApiHealthRoute
   '/api/mcp': typeof ApiMcpRoute
   '/dashboard/approvals': typeof DashboardApprovalsRoute
   '/dashboard/attacks': typeof DashboardAttacksRoute
+  '/dashboard/captures': typeof DashboardCapturesRoute
   '/dashboard/evidence': typeof DashboardEvidenceRoute
+  '/dashboard/loop': typeof DashboardLoopRoute
   '/dashboard/policies': typeof DashboardPoliciesRoute
   '/dashboard/roles': typeof DashboardRolesRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -125,11 +160,16 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/product': typeof ProductRoute
   '/skills': typeof SkillsRoute
+  '/api/contact': typeof ApiContactRoute
+  '/api/crew': typeof ApiCrewRoute
+  '/api/gateway': typeof ApiGatewayRoute
   '/api/health': typeof ApiHealthRoute
   '/api/mcp': typeof ApiMcpRoute
   '/dashboard/approvals': typeof DashboardApprovalsRoute
   '/dashboard/attacks': typeof DashboardAttacksRoute
+  '/dashboard/captures': typeof DashboardCapturesRoute
   '/dashboard/evidence': typeof DashboardEvidenceRoute
+  '/dashboard/loop': typeof DashboardLoopRoute
   '/dashboard/policies': typeof DashboardPoliciesRoute
   '/dashboard/roles': typeof DashboardRolesRoute
   '/dashboard': typeof DashboardIndexRoute
@@ -143,11 +183,16 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/product': typeof ProductRoute
   '/skills': typeof SkillsRoute
+  '/api/contact': typeof ApiContactRoute
+  '/api/crew': typeof ApiCrewRoute
+  '/api/gateway': typeof ApiGatewayRoute
   '/api/health': typeof ApiHealthRoute
   '/api/mcp': typeof ApiMcpRoute
   '/dashboard/approvals': typeof DashboardApprovalsRoute
   '/dashboard/attacks': typeof DashboardAttacksRoute
+  '/dashboard/captures': typeof DashboardCapturesRoute
   '/dashboard/evidence': typeof DashboardEvidenceRoute
+  '/dashboard/loop': typeof DashboardLoopRoute
   '/dashboard/policies': typeof DashboardPoliciesRoute
   '/dashboard/roles': typeof DashboardRolesRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -162,11 +207,16 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/product'
     | '/skills'
+    | '/api/contact'
+    | '/api/crew'
+    | '/api/gateway'
     | '/api/health'
     | '/api/mcp'
     | '/dashboard/approvals'
     | '/dashboard/attacks'
+    | '/dashboard/captures'
     | '/dashboard/evidence'
+    | '/dashboard/loop'
     | '/dashboard/policies'
     | '/dashboard/roles'
     | '/dashboard/'
@@ -178,11 +228,16 @@ export interface FileRouteTypes {
     | '/contact'
     | '/product'
     | '/skills'
+    | '/api/contact'
+    | '/api/crew'
+    | '/api/gateway'
     | '/api/health'
     | '/api/mcp'
     | '/dashboard/approvals'
     | '/dashboard/attacks'
+    | '/dashboard/captures'
     | '/dashboard/evidence'
+    | '/dashboard/loop'
     | '/dashboard/policies'
     | '/dashboard/roles'
     | '/dashboard'
@@ -195,11 +250,16 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/product'
     | '/skills'
+    | '/api/contact'
+    | '/api/crew'
+    | '/api/gateway'
     | '/api/health'
     | '/api/mcp'
     | '/dashboard/approvals'
     | '/dashboard/attacks'
+    | '/dashboard/captures'
     | '/dashboard/evidence'
+    | '/dashboard/loop'
     | '/dashboard/policies'
     | '/dashboard/roles'
     | '/dashboard/'
@@ -213,6 +273,9 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRouteWithChildren
   ProductRoute: typeof ProductRoute
   SkillsRoute: typeof SkillsRoute
+  ApiContactRoute: typeof ApiContactRoute
+  ApiCrewRoute: typeof ApiCrewRoute
+  ApiGatewayRoute: typeof ApiGatewayRoute
   ApiHealthRoute: typeof ApiHealthRoute
   ApiMcpRoute: typeof ApiMcpRoute
 }
@@ -268,6 +331,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SkillsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/contact': {
+      id: '/api/contact'
+      path: '/api/contact'
+      fullPath: '/api/contact'
+      preLoaderRoute: typeof ApiContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/crew': {
+      id: '/api/crew'
+      path: '/api/crew'
+      fullPath: '/api/crew'
+      preLoaderRoute: typeof ApiCrewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/gateway': {
+      id: '/api/gateway'
+      path: '/api/gateway'
+      fullPath: '/api/gateway'
+      preLoaderRoute: typeof ApiGatewayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/health': {
       id: '/api/health'
       path: '/api/health'
@@ -303,11 +387,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAttacksRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/captures': {
+      id: '/dashboard/captures'
+      path: '/captures'
+      fullPath: '/dashboard/captures'
+      preLoaderRoute: typeof DashboardCapturesRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/evidence': {
       id: '/dashboard/evidence'
       path: '/evidence'
       fullPath: '/dashboard/evidence'
       preLoaderRoute: typeof DashboardEvidenceRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/loop': {
+      id: '/dashboard/loop'
+      path: '/loop'
+      fullPath: '/dashboard/loop'
+      preLoaderRoute: typeof DashboardLoopRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/policies': {
@@ -330,7 +428,9 @@ declare module '@tanstack/react-router' {
 interface DashboardRouteChildren {
   DashboardApprovalsRoute: typeof DashboardApprovalsRoute
   DashboardAttacksRoute: typeof DashboardAttacksRoute
+  DashboardCapturesRoute: typeof DashboardCapturesRoute
   DashboardEvidenceRoute: typeof DashboardEvidenceRoute
+  DashboardLoopRoute: typeof DashboardLoopRoute
   DashboardPoliciesRoute: typeof DashboardPoliciesRoute
   DashboardRolesRoute: typeof DashboardRolesRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
@@ -339,7 +439,9 @@ interface DashboardRouteChildren {
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardApprovalsRoute: DashboardApprovalsRoute,
   DashboardAttacksRoute: DashboardAttacksRoute,
+  DashboardCapturesRoute: DashboardCapturesRoute,
   DashboardEvidenceRoute: DashboardEvidenceRoute,
+  DashboardLoopRoute: DashboardLoopRoute,
   DashboardPoliciesRoute: DashboardPoliciesRoute,
   DashboardRolesRoute: DashboardRolesRoute,
   DashboardIndexRoute: DashboardIndexRoute,
@@ -357,6 +459,9 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRouteWithChildren,
   ProductRoute: ProductRoute,
   SkillsRoute: SkillsRoute,
+  ApiContactRoute: ApiContactRoute,
+  ApiCrewRoute: ApiCrewRoute,
+  ApiGatewayRoute: ApiGatewayRoute,
   ApiHealthRoute: ApiHealthRoute,
   ApiMcpRoute: ApiMcpRoute,
 }

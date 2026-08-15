@@ -9,6 +9,10 @@ export const Route = createFileRoute("/api/health")({
           ok: true,
           product: "TOOLLAW",
           mcp: "/api/mcp",
+          gateway: "/api/gateway",
+          crew: "/api/crew",
+          auth: false,
+          tenants: false,
           policyHash: await policyHash(),
           fixtures: ["attack-unhalt", "attack-redeem", "attack-env-peer", "allow-health"],
         });

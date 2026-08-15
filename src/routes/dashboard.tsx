@@ -3,6 +3,8 @@ import {
   Activity,
   FileLock2,
   Radar,
+  Repeat,
+  ScrollText,
   ShieldCheck,
   Stamp,
   UserCheck,
@@ -17,9 +19,11 @@ export const Route = createFileRoute("/dashboard")({
 
 const nav = [
   { to: "/dashboard", label: "Overview", Icon: Activity, exact: true },
+  { to: "/dashboard/loop", label: "Loop", Icon: Repeat },
   { to: "/dashboard/policies", label: "Policies", Icon: FileLock2 },
   { to: "/dashboard/attacks", label: "Red Team", Icon: Radar },
   { to: "/dashboard/approvals", label: "Approvals", Icon: UserCheck },
+  { to: "/dashboard/captures", label: "Capture", Icon: ScrollText },
   { to: "/dashboard/evidence", label: "Evidence", Icon: Stamp },
   { to: "/dashboard/roles", label: "Crew", Icon: Users },
 ] as const;

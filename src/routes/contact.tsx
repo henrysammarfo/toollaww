@@ -24,49 +24,50 @@ export const Route = createFileRoute("/contact")({
 });
 
 function ContactPage() {
-  const [sent, setSent] = useState(false);
+  const [hash, setHash] = useState<string | null>(null);
 
   return (
     <PageShell
       eyebrow="Contact"
       title="Bring us your worst tool call"
-      intro="Send the call you never want an agent to make. We will turn it into a fixture, compile the rule and show you the receipt that proves it did not execute."
+      intro="No email. No accounts. POST hashes the call into a fixture proposal you can compile into policy."
     >
       <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-        <Panel title="Send a message" className="anim">
+        <Panel title="Propose a fixture" className="anim">
           <form
             className="space-y-4"
             onSubmit={(e) => {
               e.preventDefault();
-              setSent(true);
-              toast.message("Form not wired yet", {
-                description: "Open a GitHub issue on henrysammarfo/toollaww — this page does not send email.",
-              });
+              const form = e.currentTarget;
+              const raw = String(new FormData(form).get("payload") ?? "");
+              void (async () => {
+                let parsed: { tool?: string; args?: Record<string, unknown> } = {};
+                try {
+                  parsed = JSON.parse(raw) as typeof parsed;
+                } catch {
+                  toast.error("JSON required");
+                  return;
+                }
+                const res = await fetch("/api/contact", {
+                  method: "POST",
+                  headers: { "content-type": "application/json" },
+                  body: JSON.stringify({
+                    tool: parsed.tool ?? "fixture.custom",
+                    args: parsed.args ?? {},
+                    note: "contact-form",
+                  }),
+                });
+                const body = (await res.json()) as { sha256?: string };
+                setHash(body.sha256 ?? null);
+                toast.success("Fixture hashed", { description: body.sha256?.slice(0, 24) });
+              })();
             }}
           >
-            <div className="grid gap-4 sm:grid-cols-2">
-              <label className="block text-sm">
-                <span className="text-muted-foreground">Name</span>
-                <input
-                  required
-                  className="mt-2 w-full rounded-xl border border-border bg-black/40 px-4 py-3 text-sm text-foreground outline-none focus:border-white/40"
-                  placeholder="Henry Marfo"
-                />
-              </label>
-              <label className="block text-sm">
-                <span className="text-muted-foreground">Email</span>
-                <input
-                  required
-                  type="email"
-                  className="mt-2 w-full rounded-xl border border-border bg-black/40 px-4 py-3 text-sm text-foreground outline-none focus:border-white/40"
-                  placeholder="you@fleet.io"
-                />
-              </label>
-            </div>
             <label className="block text-sm">
               <span className="text-muted-foreground">The tool call that scares you</span>
               <textarea
                 required
+                name="payload"
                 rows={5}
                 className="mt-2 w-full rounded-xl border border-border bg-black/40 px-4 py-3 font-mono text-xs text-foreground outline-none focus:border-white/40"
                 placeholder={'{ "tool": "fixture.unhalt", "args": { "halted": true } }'}
@@ -76,8 +77,9 @@ function ContactPage() {
               type="submit"
               className="cta-glow rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition-transform hover:-translate-y-0.5"
             >
-              {sent ? "Not wired — use GitHub" : "Send message"}
+              Hash fixture
             </button>
+            {hash && <p className="break-all font-mono text-xs text-muted-foreground">{hash}</p>}
           </form>
         </Panel>
 

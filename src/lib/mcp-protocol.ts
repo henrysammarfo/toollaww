@@ -1,5 +1,7 @@
 import { compileArtifact, gatedCall, issueTicket, policyHash, runAttackPack } from "./kernel.ts";
 import { policy } from "./enforce.ts";
+import { gatewayDispatch } from "./gateway.ts";
+import { runCrew, proposeFixture } from "./crew.ts";
 
 export type JsonRpcReq = {
   jsonrpc?: string;
@@ -69,6 +71,37 @@ const tools = [
     description: "Return active policyHash (receipts are returned on each enforce/redteam call)",
     inputSchema: { type: "object", properties: {} },
   },
+  {
+    name: "toollaw.gateway",
+    description: "Enforce then stub-execute only on ALLOW. BLOCK captures a deny Skill.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        principal: { type: "string" },
+        tool: { type: "string" },
+        args: { type: "object" },
+      },
+      required: ["principal", "tool"],
+    },
+  },
+  {
+    name: "toollaw.crew",
+    description: "In-process Manager/Compiler/Red/Auditor closed loop",
+    inputSchema: { type: "object", properties: {} },
+  },
+  {
+    name: "toollaw.propose",
+    description: "Hash a proposed attack fixture. No email, no auth.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        tool: { type: "string" },
+        args: { type: "object" },
+        note: { type: "string" },
+      },
+      required: ["tool"],
+    },
+  },
 ];
 
 async function callTool(name: string, args: Record<string, unknown>): Promise<unknown> {
@@ -95,6 +128,21 @@ async function callTool(name: string, args: Record<string, unknown>): Promise<un
       return issueTicket(String(args["principal"] ?? ""), String(args["tool"] ?? ""));
     case "toollaw.evidence":
       return { policyHash: await policyHash(), tools: policy.tools.map((t) => t.name) };
+    case "toollaw.gateway":
+      return gatewayDispatch({
+        principal: String(args["principal"] ?? "red"),
+        tool: String(args["tool"] ?? ""),
+        args: (args["args"] as Record<string, unknown> | undefined) ?? {},
+        ticketId: (args["ticketId"] as string | null | undefined) ?? null,
+      });
+    case "toollaw.crew":
+      return runCrew();
+    case "toollaw.propose":
+      return proposeFixture({
+        tool: String(args["tool"] ?? "fixture.custom"),
+        args: (args["args"] as Record<string, unknown> | undefined) ?? {},
+        note: String(args["note"] ?? ""),
+      });
     default:
       throw new Error(`unknown-tool:${name}`);
   }

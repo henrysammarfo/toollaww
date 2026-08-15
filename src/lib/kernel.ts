@@ -22,6 +22,8 @@ export type Receipt = {
   ticketId: string | null;
   ts: string;
   evidenceSha256: string;
+  traceId?: string;
+  spanId?: string;
 };
 
 let cachedPolicyHash: string | null = null;

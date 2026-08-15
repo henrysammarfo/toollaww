@@ -16,11 +16,8 @@ SCOUT / LOCKIN / AFTERCUT stay in the aftercut+scoutbot chat. Do not unhalt SCOU
 
 ## Now (2026-08-15)
 
-- Lovable frontend is the starting point
-- Prelim pack copied into this repo
-- Landing copy is TOOLLAW; footer stats are honest (roles/skills/BLOCKs/loop), not fake enterprise numbers
-- Console attack pack calls `toollaw.enforce` against fixture JSON
-- Next: live MCP HTTP + hashed evidence (attempt 2). AgentTeams sidecar still 3 Sep — never `/opt/scout` or `/opt/lockin`
-- Vercel team `teamtitanlink` · project `toollaww` (git-linked)
+Phases locked in `docs/PHASES.md`. **No auth / sessions / tenants.**
+Building Phase 1 (gateway, capture, traces, contact hash) and Phase 2 in-process crew.
+AgentTeams sidecar = Phase 3 (3 Sep). Never `/opt/scout` or `/opt/lockin`.
 
 Ask before git push.
