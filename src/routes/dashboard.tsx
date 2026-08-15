@@ -41,10 +41,8 @@ function DashboardLayout() {
           </Link>
 
           <nav className="mt-7 flex gap-2 overflow-x-auto lg:flex-col lg:overflow-visible">
-            {nav.map(({ to, label, Icon, exact }) => {
-              const active =
-                "exact" in { exact } && exact ? pathname === to : pathname.startsWith(to) && to !== "/dashboard";
-              const isOn = to === "/dashboard" ? pathname === "/dashboard" : active;
+            {nav.map(({ to, label, Icon }) => {
+              const isOn = to === "/dashboard" ? pathname === "/dashboard" : pathname.startsWith(to);
               return (
                 <Link
                   key={to}
