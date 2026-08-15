@@ -7,7 +7,7 @@
 - **Canonical folder:** `C:\Users\jessi\Desktop\toollaww`
 - **Track:** GOAI Agent Infra
 - **Deadline prelim:** 2026-08-16 23:59 CST
-- **Bible:** `docs/TOOLLAW_BIBLE.md`
+- **Live:** https://toollaww.vercel.app
 
 ## Other chats
 

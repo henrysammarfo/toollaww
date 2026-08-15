@@ -4,6 +4,8 @@
 
 GitHub: [henrysammarfo/toollaww](https://github.com/henrysammarfo/toollaww) (Lovable). Product name is **TOOLLAW**.
 
+**Live:** [https://toollaww.vercel.app](https://toollaww.vercel.app)
+
 Tool-level allowlist + fail-closed red team on AgentTeams.
 
 **Bible:** [`docs/TOOLLAW_BIBLE.md`](docs/TOOLLAW_BIBLE.md)  
