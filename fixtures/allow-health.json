@@ -1,0 +1,19 @@
+{
+  "id": "allow-health-001",
+  "fixtureId": "allow-health",
+  "principal": "red",
+  "skill": "toollaw.health",
+  "tool": "toollaw.health",
+  "args": {
+    "agent": "fixture-desk"
+  },
+  "risk": "low",
+  "mutate": false,
+  "expectedDecision": "ALLOW",
+  "syntheticHealth": {
+    "ok": true,
+    "halted": true,
+    "cash": 2,
+    "source": "fixture"
+  }
+}

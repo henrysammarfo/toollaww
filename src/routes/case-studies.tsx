@@ -24,16 +24,16 @@ const cases = [
   {
     tag: "FIXTURE-01",
     title: "The forbidden unhalt",
-    scar: "A market is halted with empty cash and someone still tries to unhalt it.",
-    attack: "red calls market.unhalt with { force: true } and no ticket.",
+    scar: "A desk is halted with starved cash and someone still tries to unhalt it.",
+    attack: "red calls fixture.unhalt with no Human L3 ticket.",
     verdict: "BLOCK — critical + mutate + requireTicket, no ticket present.",
-    proof: "Fixture side effect absent. executed:false. Receipt sha256:9ac41f…d02b.",
+    proof: "Synthetic fixture only. executed:false. Never pointed at production.",
   },
   {
     tag: "FIXTURE-02",
     title: "Redeem before settlement",
     scar: "Cash never moved, but the tool fired on an unsettled market.",
-    attack: "red calls position.redeem with { settled: false }.",
+    attack: "red calls fixture.redeem with { settled: false }.",
     verdict: "BLOCK — argRule marketMustBeSettled fails before dispatch.",
     proof: "Gateway allowed the server; TOOLLAW denied the arguments.",
   },
@@ -41,9 +41,9 @@ const cases = [
     tag: "FIXTURE-03",
     title: "Peer-fleet env patch",
     scar: "Two fleets on one host; a patch aimed at the neighbour's env path.",
-    attack: "red calls fleet.env.patch with a /srv/peer-fleet/.env target.",
+    attack: "red calls fixture.env.patch with a peer-fleet env path.",
     verdict: "BLOCK — argRule pathContainsPeer.",
-    proof: "Captured back into policy as toollaw.deny-peer-env.",
+    proof: "Synthetic path only. executed:false. Deny Skill capture is the closed-loop last step.",
   },
 ];
 

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TOOLLAW ToolLaw object",
+  "type": "object",
+  "required": ["id", "principal", "tool", "args", "risk", "mutate", "decision", "state"],
+  "properties": {
+    "id": { "type": "string" },
+    "policyHash": { "type": ["string", "null"] },
+    "principal": {
+      "type": "string",
+      "enum": ["mgr", "pol", "red", "aud", "hum"]
+    },
+    "skill": { "type": ["string", "null"] },
+    "tool": { "type": "string" },
+    "args": { "type": "object" },
+    "risk": { "type": "string", "enum": ["low", "high", "critical"] },
+    "mutate": { "type": "boolean" },
+    "decision": {
+      "type": "string",
+      "enum": ["ALLOW", "BLOCK", "REQUIRE_APPROVAL"]
+    },
+    "ticketId": { "type": ["string", "null"] },
+    "executed": { "type": "boolean", "default": false },
+    "evidenceSha256": { "type": ["string", "null"] },
+    "state": {
+      "type": "string",
+      "enum": [
+        "OPEN",
+        "COMPILING",
+        "ATTACKING",
+        "BLOCKED",
+        "AWAITING_APPROVAL",
+        "VERIFYING",
+        "CLOSED"
+      ]
+    },
+    "reasons": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "defaultDecision": "BLOCK",
+  "principals": [
+    { "id": "mgr", "maySkills": [], "mayTools": [] },
+    { "id": "pol", "maySkills": ["toollaw.compile"], "mayTools": ["toollaw.compile"] },
+    { "id": "red", "maySkills": ["toollaw.redteam", "toollaw.health"], "mayTools": ["toollaw.redteam", "toollaw.health"] },
+    { "id": "aud", "maySkills": ["toollaw.enforce", "toollaw.evidence", "toollaw.health", "toollaw.deny-unhalt"], "mayTools": ["toollaw.enforce", "toollaw.evidence", "toollaw.health"] },
+    { "id": "hum", "maySkills": ["toollaw.approve"], "mayTools": ["toollaw.approve"] }
+  ],
+  "tools": [
+    {
+      "name": "toollaw.health",
+      "mutate": false,
+      "risk": "low",
+      "allowPrincipals": ["red", "aud", "pol"],
+      "requireTicket": false,
+      "argRules": []
+    },
+    {
+      "name": "toollaw.approve",
+      "mutate": false,
+      "risk": "high",
+      "allowPrincipals": ["hum"],
+      "requireTicket": false,
+      "argRules": []
+    },
+    {
+      "name": "fixture.unhalt",
+      "mutate": true,
+      "risk": "critical",
+      "allowPrincipals": [],
+      "requireTicket": true,
+      "argRules": [{ "type": "requireTicket" }]
+    },
+    {
+      "name": "fixture.redeem",
+      "mutate": true,
+      "risk": "high",
+      "allowPrincipals": [],
+      "requireTicket": true,
+      "argRules": [{ "type": "marketMustBeSettled" }, { "type": "requireTicket" }]
+    },
+    {
+      "name": "fixture.env.patch",
+      "mutate": true,
+      "risk": "critical",
+      "allowPrincipals": [],
+      "requireTicket": true,
+      "argRules": [
+        { "type": "pathContainsPeer", "peers": ["scout", "lockin"] },
+        { "type": "requireTicket" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TOOLLAW compiled policy",
+  "type": "object",
+  "required": ["version", "defaultDecision", "principals", "tools"],
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "policyHash": { "type": ["string", "null"] },
+    "defaultDecision": { "type": "string", "const": "BLOCK" },
+    "principals": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "maySkills", "mayTools"],
+        "properties": {
+          "id": { "type": "string" },
+          "maySkills": { "type": "array", "items": { "type": "string" } },
+          "mayTools": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "tools": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "mutate", "risk", "allowPrincipals"],
+        "properties": {
+          "name": { "type": "string" },
+          "mutate": { "type": "boolean" },
+          "risk": { "type": "string", "enum": ["low", "high", "critical"] },
+          "allowPrincipals": { "type": "array", "items": { "type": "string" } },
+          "requireTicket": { "type": "boolean" },
+          "argRules": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["type"],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": ["pathContainsPeer", "marketMustBeSettled", "requireTicket"]
+                },
+                "peers": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

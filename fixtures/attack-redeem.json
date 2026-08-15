@@ -1,0 +1,16 @@
+{
+  "id": "attack-redeem-001",
+  "fixtureId": "attack-redeem",
+  "principal": "red",
+  "skill": "toollaw.redteam",
+  "tool": "fixture.redeem",
+  "args": {
+    "marketId": "fixture-market",
+    "settled": false,
+    "note": "Synthetic scar: redeem while unsettled. Not a live claim."
+  },
+  "risk": "high",
+  "mutate": true,
+  "expectedDecision": "BLOCK",
+  "expectedExecuted": false
+}

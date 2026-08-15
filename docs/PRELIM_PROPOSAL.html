@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>TOOLLAW — GOAI Agent Infra Preliminary Proposal</title>
+  <style>
+    @page { size: A4; margin: 14mm; }
+    * { box-sizing: border-box; }
+    body { font: 11pt/1.4 "Segoe UI", Arial, sans-serif; color: #111; max-width: 210mm; margin: 0 auto; padding: 12mm; }
+    h1 { font-size: 20pt; margin: 0 0 4pt; }
+    h2 { font-size: 13pt; margin: 16pt 0 6pt; border-bottom: 1px solid #222; padding-bottom: 2pt; page-break-after: avoid; }
+    h3 { font-size: 11pt; margin: 10pt 0 4pt; }
+    p, li { margin: 0 0 6pt; }
+    .meta { color: #333; font-size: 10pt; margin-bottom: 12pt; }
+    table { width: 100%; border-collapse: collapse; margin: 0 0 10pt; font-size: 9.5pt; }
+    th, td { border: 1px solid #444; padding: 4pt 6pt; vertical-align: top; text-align: left; }
+    th { background: #f0f0f0; }
+    .box { border: 1px solid #222; padding: 8pt 10pt; margin: 8pt 0; }
+    code { font-family: Consolas, monospace; font-size: 9.5pt; }
+    .small { font-size: 9pt; color: #333; }
+    @media print { body { padding: 0; } a { color: inherit; text-decoration: none; } }
+  </style>
+</head>
+<body>
+  <h1>TOOLLAW</h1>
+  <p class="meta">
+    <strong>GOAI 2026 · Track 1 Agent Infra</strong> · Accra Technical University · 2026-08-14<br />
+    Sources: GOAI handbook · goaihz.com · AgentTeams (formerly HiClaw) · T1 lock (not demo 4 / not PROOFLOOP)
+  </p>
+  <div class="box">
+    <strong>One sentence.</strong> Agent Infra for tools: an AgentTeams crew that compiles who may call which Skill or MCP tool, with which args, into a fail-closed allowlist. Policy Compiler writes the artifact; Red Team must lose in the Matrix room; Gateway Auditor proves the forbidden call did not execute and emits hashed evidence.
+  </div>
+  <p class="small">Prelim does not require runnable code. Semi-final (2026-09-03) ships an AgentTeams demo. Not a trading bot. Not handbook Direction 1 ITSM. Not AgentTeams demo 4 incident chat.</p>
+
+  <h2>1. Scenario and value (25%)</h2>
+  <p><strong>Problem.</strong> OSS agent gateways typically ACL at <strong>server</strong> level. A Worker allowed to talk to an MCP server can still fire the wrong <strong>tool</strong> with the wrong <strong>args</strong>. OpenTelemetry traces show the blast after it happens. Enterprises need enforcement: AppArmor / IAM for agent tools.</p>
+  <p><strong>Users.</strong> Platform, SRE, and security teams running multi-agent fleets. Not retail chat users. Not traders.</p>
+  <p><strong>Value.</strong> Compiled tool-level law + red-team proof + hashed receipts. Replicable: swap fixture JSON; keep roles, Skills, and default BLOCK.</p>
+  <p><strong>Not this idea.</strong> Nacos+Higress logo stack; LangGraph SRE crew ported to AgentTeams; official demo 4 with a new fixture name.</p>
+
+  <h2>2. Solution</h2>
+  <p>TOOLLAW makes “who may call which tool with which args” a <strong>Skill</strong>, then proves it. Lived halt / redeem / env-mix events are an <strong>attack pack</strong>, not the pitch. Moat line: <em>Traces show what happened. TOOLLAW decides what is allowed to happen.</em></p>
+
+  <h2>3. Multi-agent closed loop (25%)</h2>
+  <p>Baseline: AgentTeams Manager–Workers in a Matrix room. Humans are first-class members (L3 on high-risk). Four named roles plus Human.</p>
+  <table>
+    <tr><th>Step</th><th>Who</th><th>AgentTeams mapping</th></tr>
+    <tr><td>Task input</td><td>Red Team</td><td>Worker posts fixture JSON as a <code>ToolLaw</code> attempt</td></tr>
+    <tr><td>Decomposition</td><td>Manager + Policy Compiler</td><td>TeamHarness assigns compile vs attack vs audit</td></tr>
+    <tr><td>Context passing</td><td>Shared <code>ToolLaw</code> object</td><td>Files / artifacts, not a 20k-token chat dump</td></tr>
+    <tr><td>Tool calling</td><td>Skills + MCP-shaped catalog</td><td>Gateway holds secrets (Higress pattern)</td></tr>
+    <tr><td>Result verification</td><td>Auditor</td><td><code>executed: false</code> on BLOCK; ALLOW on health read</td></tr>
+    <tr><td>Evidence</td><td>Auditor</td><td>policyHash + sha256 receipt</td></tr>
+    <tr><td>Approval / rollback</td><td>Human L3</td><td>No ticket → BLOCK (prevent, not undo)</td></tr>
+    <tr><td>Experience capture</td><td>Auditor</td><td>Writes reusable <code>toollaw.deny-unhalt</code></td></tr>
+  </table>
+  <p><strong>Exception branches.</strong> Unknown tool → BLOCK. Peer path in env args → BLOCK. Unsettled redeem → BLOCK. Red Team calling approve → BLOCK. Compiler error → <code>BLOCKED</code>, do not load stale policy.</p>
+
+  <h2>4. Agent identity list (Appendix A)</h2>
+  <table>
+    <tr><th>ID</th><th>Role</th><th>AgentTeams</th><th>May</th><th>Must not</th></tr>
+    <tr><td>mgr</td><td>Manager</td><td>Manager</td><td>Create Team, track state</td><td>Fire tools</td></tr>
+    <tr><td>pol</td><td>Policy Compiler</td><td>Leader or Worker</td><td>Compile YAML → allowlist</td><td>Execute risky tools</td></tr>
+    <tr><td>red</td><td>Red Team</td><td>Worker</td><td>Attack with forbidden Skills</td><td>Self-approve</td></tr>
+    <tr><td>aud</td><td>Gateway Auditor</td><td>Worker</td><td>Match traces, evidence</td><td>Weaken allowlist</td></tr>
+    <tr><td>hum</td><td>Human</td><td>Matrix Human</td><td>ALLOW / DENY</td><td>Be optional on high-risk</td></tr>
+  </table>
+  <p>State machine: <code>OPEN → COMPILING → ATTACKING → BLOCKED | AWAITING_APPROVAL → VERIFYING → CLOSED</code>.</p>
+
+  <h2>5. Skills (mandatory, 25%)</h2>
+  <p>Skill is the task-capability abstraction. MCP (or equivalent contract) is the tool-connection layer. Specs live in <code>skills/</code>. Handbook: Skill mandatory; MCP recommended.</p>
+  <table>
+    <tr><th>Skill</th><th>Purpose</th><th>I/O (summary)</th><th>Mutate</th><th>Approval</th></tr>
+    <tr><td>toollaw.compile</td><td>Hash allowlist artifact</td><td>policy → policyHash</td><td>artifact</td><td>no</td></tr>
+    <tr><td>toollaw.enforce</td><td>Deterministic gate</td><td>attempt → ALLOW/BLOCK/REQUIRE_APPROVAL</td><td>no</td><td>n/a</td></tr>
+    <tr><td>toollaw.redteam</td><td>Submit attack fixture</td><td>fixtureId → ToolLaw attempt</td><td>attempt only</td><td>must fail closed</td></tr>
+    <tr><td>toollaw.evidence</td><td>Append-only receipt</td><td>ToolLaw → uri + sha256</td><td>evidence</td><td>no</td></tr>
+    <tr><td>toollaw.approve</td><td>Human L3 ticket</td><td>ALLOW/DENY → ticketId</td><td>ticket</td><td>human-only</td></tr>
+    <tr><td>toollaw.health</td><td>Read fixture</td><td>agent → synthetic health</td><td>no</td><td>no</td></tr>
+    <tr><td>toollaw.deny-unhalt</td><td>Capture after BLOCK</td><td>receipt → deny Skill</td><td>no</td><td>n/a</td></tr>
+  </table>
+  <p>Attack surface (fixtures, not product Skills): <code>fixture.unhalt</code>, <code>fixture.redeem</code>, <code>fixture.env.patch</code>. Never pointed at production <code>/opt/scout</code> or <code>/opt/lockin</code>.</p>
+
+  <h2>6. Engineering / audit (20%) and OSS (5%)</h2>
+  <p>Typed JSON Schema for the <code>ToolLaw</code> object and compiled policy. Default fail-closed. Evidence zip for judges. Apache-2.0. No secrets in git.</p>
+  <p class="small">Higress OSS vs Enterprise tool-level ACL is documented as a product gap in HiClaw 1.0.6 materials (TinyFish/GitHub). Tavily did not fully prove the split — we mark it partial and still close the gap with Skills.</p>
+
+  <h2>7. Demo plan (3 Sep, same loop 22–23 Sep Hangzhou)</h2>
+  <p>Red Team fires high-risk Skill → BLOCK + receipt → Human ALLOW on <code>toollaw.health</code> → peer-fleet env patch BLOCK → Auditor zip. Kill beat: Red Team cannot stamp its own ticket.</p>
+
+  <h2>8. Honest limits</h2>
+  <p>This idea does not guarantee Top 15. Prelim is scored on completeness and scenario. Semi requires a runnable AgentTeams fail-closed loop. Aliyun: a small evidenced loop beats a fake platform.</p>
+</body>
+</html>

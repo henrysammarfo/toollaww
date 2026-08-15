@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Mail, MapPin, Github } from "lucide-react";
+import { MapPin, Github } from "lucide-react";
 import { toast } from "sonner";
 import { PageShell, Panel } from "@/components/PageShell";
 
@@ -39,8 +39,8 @@ function ContactPage() {
             onSubmit={(e) => {
               e.preventDefault();
               setSent(true);
-              toast.success("Message queued", {
-                description: "The TOOLLAW team will reply within two working days.",
+              toast.message("Form not wired yet", {
+                description: "Open a GitHub issue on henrysammarfo/toollaww — this page does not send email.",
               });
             }}
           >
@@ -69,14 +69,14 @@ function ContactPage() {
                 required
                 rows={5}
                 className="mt-2 w-full rounded-xl border border-border bg-black/40 px-4 py-3 font-mono text-xs text-foreground outline-none focus:border-white/40"
-                placeholder={'{ "tool": "market.unhalt", "args": { "force": true } }'}
+                placeholder={'{ "tool": "fixture.unhalt", "args": { "halted": true } }'}
               />
             </label>
             <button
               type="submit"
               className="cta-glow rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition-transform hover:-translate-y-0.5"
             >
-              {sent ? "Sent" : "Send message"}
+              {sent ? "Not wired — use GitHub" : "Send message"}
             </button>
           </form>
         </Panel>
@@ -84,8 +84,15 @@ function ContactPage() {
         <Panel title="Direct" className="anim">
           <ul className="space-y-5 text-sm">
             <li className="flex min-w-0 items-start gap-3">
-              <Mail className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
-              <span className="min-w-0 break-words text-[#d0d0d0]/85">team@toollaw.dev</span>
+              <Github className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+              <a
+                className="min-w-0 break-words text-[#d0d0d0]/85 underline-offset-4 hover:underline"
+                href="https://github.com/henrysammarfo/toollaww"
+                target="_blank"
+                rel="noreferrer"
+              >
+                github.com/henrysammarfo/toollaww
+              </a>
             </li>
             <li className="flex min-w-0 items-start gap-3">
               <MapPin className="mt-0.5 size-4 shrink-0 text-muted-foreground" />

@@ -2,8 +2,37 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Play, ShieldAlert } from "lucide-react";
 import { toast } from "sonner";
-import { attempts as seed, type Attempt } from "@/lib/toollaw-data";
+import { type Attempt } from "@/lib/toollaw-data";
+import { enforce } from "@/lib/enforce";
 import { DecisionBadge } from "./dashboard.index";
+import unhalt from "../../fixtures/attack-unhalt.json";
+import redeem from "../../fixtures/attack-redeem.json";
+import peer from "../../fixtures/attack-env-peer.json";
+import health from "../../fixtures/allow-health.json";
+
+const pack = [unhalt, redeem, peer, health] as const;
+
+function toAttempt(
+  fixture: (typeof pack)[number],
+  result: ReturnType<typeof enforce>,
+  id: string,
+): Attempt {
+  return {
+    id,
+    principal: fixture.principal,
+    skill: fixture.skill,
+    tool: fixture.tool,
+    args: JSON.stringify(fixture.args),
+    risk: result.risk,
+    mutate: result.mutate,
+    decision: result.decision,
+    executed: result.executed,
+    ticketId: null,
+    evidenceSha256: null,
+    state: result.decision === "ALLOW" ? "CLOSED" : "BLOCKED",
+    at: new Date().toISOString().slice(11, 19),
+  };
+}
 
 export const Route = createFileRoute("/dashboard/attacks")({
   head: () => ({
@@ -12,7 +41,7 @@ export const Route = createFileRoute("/dashboard/attacks")({
       {
         name: "description",
         content:
-          "Fire the attack pack at the fail-closed gate and watch every forbidden tool call terminate with executed:false.",
+          "Fire the attack pack at the fail-closed gate. Forbidden tools stay executed:false; health read is ALLOW.",
       },
       { property: "og:title", content: "Red Team — TOOLLAW Console" },
       { property: "og:description", content: "Attack pack against the fail-closed gate." },
@@ -22,18 +51,26 @@ export const Route = createFileRoute("/dashboard/attacks")({
 });
 
 function AttacksPage() {
-  const [log, setLog] = useState<Attempt[]>(seed);
+  const [log, setLog] = useState<Attempt[]>([]);
   const [running, setRunning] = useState(false);
 
   const run = () => {
     setRunning(true);
-    toast("Attack pack armed", { description: "Worker red is firing forbidden Skills." });
-    seed.forEach((a, i) => {
-      setTimeout(() => {
-        setLog((prev) => [{ ...a, id: `${a.id}-r${prev.length}` }, ...prev]);
-        if (i === seed.length - 1) {
+    setLog([]);
+    toast("Attack pack armed", { description: "Worker red is firing fixture Skills." });
+    pack.forEach((fixture, i) => {
+      window.setTimeout(() => {
+        const result = enforce({
+          principal: fixture.principal,
+          tool: fixture.tool,
+          args: fixture.args as Record<string, unknown>,
+        });
+        setLog((prev) => [toAttempt(fixture, result, `${fixture.id}-${prev.length}`), ...prev]);
+        if (i === pack.length - 1) {
           setRunning(false);
-          toast.success("Pack complete", { description: "All mutating attempts blocked." });
+          toast.success("Pack complete", {
+            description: "Mutating fixtures BLOCK. Health read ALLOW.",
+          });
         }
       }, 350 * (i + 1));
     });
@@ -48,6 +85,7 @@ function AttacksPage() {
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
             Worker <span className="font-mono">red</span> attacks only. It can never self-approve.
+            Gate is <span className="font-mono">toollaw.enforce</span>, not a replay of canned rows.
           </p>
         </div>
         <button
@@ -66,6 +104,9 @@ function AttacksPage() {
         </div>
 
         <div className="mt-5 space-y-3">
+          {log.length === 0 && (
+            <p className="text-sm text-muted-foreground">Run the pack to compile decisions live.</p>
+          )}
           {log.map((a) => (
             <div
               key={a.id}

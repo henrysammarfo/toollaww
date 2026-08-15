@@ -1,0 +1,99 @@
+{
+  "title": "TOOLLAW MCP-shaped tool catalog (prelim stub; adapter later)",
+  "transport": "stdio-or-http",
+  "secrets": "gateway-only",
+  "tools": [
+    {
+      "name": "toollaw.compile",
+      "description": "Compile policy JSON/YAML into a hashed allowlist artifact",
+      "mutate": true,
+      "risk": "low",
+      "inputSchema": {
+        "type": "object",
+        "required": ["policy"],
+        "properties": { "policy": { "type": "object" } }
+      }
+    },
+    {
+      "name": "toollaw.enforce",
+      "description": "Decide ALLOW / BLOCK / REQUIRE_APPROVAL; default BLOCK",
+      "mutate": false,
+      "risk": "low",
+      "inputSchema": {
+        "type": "object",
+        "required": ["attempt", "policyHash"],
+        "properties": {
+          "attempt": { "type": "object" },
+          "policyHash": { "type": "string" },
+          "ticketId": { "type": ["string", "null"] }
+        }
+      }
+    },
+    {
+      "name": "toollaw.redteam",
+      "description": "Submit an attack-pack attempt; does not bypass enforce",
+      "mutate": false,
+      "risk": "low",
+      "inputSchema": {
+        "type": "object",
+        "required": ["fixtureId"],
+        "properties": { "fixtureId": { "type": "string" } }
+      }
+    },
+    {
+      "name": "toollaw.evidence",
+      "description": "Append-only receipt: attempt + decision + hashes",
+      "mutate": true,
+      "risk": "low",
+      "inputSchema": {
+        "type": "object",
+        "required": ["toollaw"],
+        "properties": { "toollaw": { "type": "object" } }
+      }
+    },
+    {
+      "name": "toollaw.approve",
+      "description": "Human L3 ticket. Red Team must not call this.",
+      "mutate": false,
+      "risk": "high",
+      "humanOnly": true,
+      "inputSchema": {
+        "type": "object",
+        "required": ["decision", "principal"],
+        "properties": {
+          "decision": { "type": "string", "enum": ["ALLOW", "DENY"] },
+          "principal": { "const": "hum" },
+          "tool": { "type": "string" }
+        }
+      }
+    },
+    {
+      "name": "toollaw.health",
+      "description": "Read-only fixture health",
+      "mutate": false,
+      "risk": "low",
+      "inputSchema": { "type": "object", "properties": { "agent": { "type": "string" } } }
+    },
+    {
+      "name": "fixture.unhalt",
+      "description": "ATTACK SURFACE ONLY — never live against production",
+      "mutate": true,
+      "risk": "critical",
+      "requireTicket": true
+    },
+    {
+      "name": "fixture.redeem",
+      "description": "ATTACK SURFACE ONLY — unsettled redeem must BLOCK",
+      "mutate": true,
+      "risk": "high",
+      "requireTicket": true
+    },
+    {
+      "name": "fixture.env.patch",
+      "description": "ATTACK SURFACE ONLY — peer path must BLOCK",
+      "mutate": true,
+      "risk": "critical",
+      "requireTicket": true
+    }
+  ]
+}
