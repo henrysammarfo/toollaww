@@ -1,27 +1,36 @@
 # TOOLLAW — GOAI Agent Infra Preliminary Proposal
 
-**GOAI 2026 · Track 1 Agent Infra** · Accra Technical University · 2026-08-14  
-Sources: GOAI handbook · goaihz.com · AgentTeams (formerly HiClaw) · idea search T1 lock
+**GOAI 2026 · Track 1 Agent Infra** · Accra Technical University · 2026-08-16
 
-**One sentence.** Agent Infra for tools: compile who may call which Skill/MCP tool with which args into a fail-closed allowlist; Red Team must lose in the Matrix room; Gateway Auditor proves the forbidden call did not execute.
+**One sentence.** TOOLLAW compiles *who may call which Skill or MCP tool, with which arguments,* into a fail-closed allowlist. Policy Compiler writes the artifact; Red Team must lose in the Matrix room; Gateway Auditor proves the forbidden call did not execute and emits hashed evidence. Human ALLOW is L3-only.
 
-Prelim does not require runnable code. Semi-final (2026-09-03) ships an AgentTeams demo. This is not a trading bot, not handbook Direction 1 ITSM, not AgentTeams demo 4.
+## Demo (running)
+
+| Surface | URL |
+|---|---|
+| Product + MCP | https://toollaww.vercel.app · `/api/mcp` |
+| Policy sidecar | http://34.89.119.128:8787/health |
+| AgentTeams dashboard | http://34.89.119.128:13000 |
+| Element (Matrix) | http://34.89.119.128:18088 |
+| Higress console | http://34.89.119.128:18001 |
 
 ## 1. Scenario and value (25%)
 
-**Problem.** OSS agent gateways typically ACL at **server** level. A Worker that may talk to an MCP server can still fire the wrong **tool** with the wrong **args**. Traces show the blast after it happens. Enterprises need enforcement: AppArmor/IAM for agent tools.
+**Problem.** OSS agent gateways typically ACL at **server** level. A Worker that may talk to an MCP server can still fire the wrong **tool** with the wrong **args**. Traces show the blast after it happens. Platform teams need enforcement: AppArmor/IAM for agent tools.
 
-**Users.** Platform, SRE, and security teams running multi-agent fleets. Not retail chat. Not traders.
+**Users.** Platform, SRE, and security teams running multi-agent fleets.
 
 **Value.** Compiled tool-level law + red-team proof + hashed evidence. Replicable: swap fixtures; keep roles, Skills, and fail-closed default.
 
-**Not this idea:** Nacos+Higress logo stack; LangGraph SRE crew; incident-chat clone of official demo 4.
+**Not this idea.** A logo stack. A LangGraph SRE crew. Official AgentTeams demo 4 (incident chat). A trading product.
 
 ## 2. Solution
 
 TOOLLAW: Policy Compiler writes an allowlist Skill; Red Team attacks with a fixture pack; Auditor matches policy hash to the attempt; Human L3 is required on high-risk and cannot be the attacker.
 
-Lived halt/redeem/env-mix events are **attack fixtures**, not the product.
+Halt / redeem / peer-env events are **attack fixtures**, not the product.
+
+**Moat.** Traces show what happened. TOOLLAW decides what is allowed to happen.
 
 ## 3. Multi-agent closed loop (25%)
 
@@ -72,10 +81,10 @@ Attack surface (not product Skills): `fixture.unhalt`, `fixture.redeem`, `fixtur
 - Default fail-closed. Evidence zip for judges.
 - Apache-2.0. No secrets in git. Fixtures are synthetic.
 
-## 7. Demo (3 Sep, reused 22 Sep)
+## 7. Demo loop (semi 3 Sep, reused 22 Sep)
 
 Red Team fires unhalt → BLOCK + receipt → Human ALLOW on health → peer env.patch BLOCK → Auditor zip.
 
 ## 8. Honest limits
 
-Idea does not guarantee Top 15. Prelim is completeness + scenario. Semi is a runnable fail-closed loop. Higress OSS vs Enterprise tool ACL is **partially** documented (HiClaw 1.0.6 blog); we do not overclaim Tavily proved it.
+Prelim is completeness + scenario. Semi is a runnable fail-closed loop on AgentTeams. Higress OSS vs Enterprise tool ACL is treated as a gap we close with Skills — we do not overclaim the gateway already does tool-arg IAM.

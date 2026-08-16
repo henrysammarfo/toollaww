@@ -1,0 +1,13 @@
+{
+  "default_server_config": {
+    "m.homeserver": {
+      "base_url": "http://34.89.119.128:18080",
+      "server_name": "matrix-local.agentteams.io:18080"
+    }
+  },
+  "default_server_name": "matrix-local.agentteams.io:18080",
+  "brand": "Element",
+  "disable_guests": true,
+  "disable_custom_urls": false,
+  "disable_3pid_login": true
+}

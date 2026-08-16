@@ -1,0 +1,16 @@
+[Unit]
+Description=TOOLLAW sidecar (never scout/lockin)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/toollaw
+Environment=TOOLLAW_SIDECAR_HOME=/var/lib/toollaw
+Environment=PORT=8787
+ExecStart=/usr/bin/node --experimental-strip-types sidecar/server.ts
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

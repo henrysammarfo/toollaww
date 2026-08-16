@@ -64,8 +64,8 @@ Own namespace **`toollaw-sidecar`**. Own volume **`/var/lib/toollaw`**. Never `/
 | OTLP | `GET /api/otel` JSON export | **done** |
 | Evidence zip | `POST /api/film` | **done** |
 | Docker compose | gateway + MinIO + collector, isolated volumes | **done** |
-| Official Hangzhou images | `kubectl apply -f deploy/agentteams/toollaw-crew.yaml` on dedicated VM | **YAML ready — images not pulled here** |
-| Film | BLOCK unhalt → ALLOW health → BLOCK peer → zip | **e2e OK** `npm run e2e` · `/dashboard/sidecar` |
+| Official Hangzhou images | installer on GCE `toollaw-sidecar` | **running** controller/manager/dashboard 2026-08-16 |
+| Film | BLOCK unhalt → ALLOW health → BLOCK peer → zip | **e2e OK** local + **GCE CLOSED** `http://34.89.119.128:8787` |
 
 ---
 

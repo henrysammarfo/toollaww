@@ -1,10 +1,8 @@
-# TOOLLAW Bible — full product overview (LOCKED)
+# TOOLLAW Bible — product overview (LOCKED)
 
-> **Source of truth for the GOAI build.** Same pipeline as ROOT → AFTERCUT → SCOUT: research, lock, then build every layer.  
 > **Product:** TOOLLAW · **Track:** GOAI 2026 Track 1 Agent Infra · **Team:** Accra Technical University  
 > **Prelim:** 16 Aug 2026, 23:59 CST · **Top 30:** 24 Aug · **Semi demo:** 3 Sep · **Top 15:** 10 Sep · **Finals:** 22–23 Sep Hangzhou  
-> This repo builds TOOLLAW only. SCOUT / LOCKIN / AFTERCUT stay in the other Cursor chat.  
-> Idea search: `C:\Users\jessi\Desktop\aftercut\docs\memory\GOAI_IDEA_SEARCH.md`
+> Judge-facing pack: `docs/PRELIM_HANDBOOK.md` · `docs/PRELIM_PROPOSAL.md` · `docs/PRELIM_INTRO.txt`
 
 ---
 
@@ -61,22 +59,19 @@ That missing layer is the product.
 
 ---
 
-## 2. Why this lock (ROOT process)
+## 2. Why this lock
 
-AFTERCUT did not rebuild Opus. TOOLLAW does not rebuild:
+TOOLLAW does not rebuild:
 
 | Kill | Why |
 |---|---|
 | Handbook Dir 1 — generic ITSM / zero-touch ops | AgentTeams **demo 4** + Aliyun’s own “alert → RCA → change → verify” |
 | Handbook Dir 3 — software collab | AgentTeams **demo 1** |
-| **PROOFLOOP as product** | Demo 4 + Dir 1 with a trading-desk fixture. Lived scar is real; **idea shape is the default clone**. `Desktop\proofloop` is notes only. |
 | Nacos+Higress+PolarDB+RocketMQ logo stack | Handbook: quantity not scored |
 | Single-runtime “Manager says, Workers chat” | HiClaw quickstart, not infra |
 | LangGraph SRE crew ported to AgentTeams | 2026 blog default |
 
-**T1 beat T2/T3/T4** on Skill 25% + audit 20% + uncrowded surface (Higress OSS coarse ACL; OTel traces without enforcement). Scorecard in the idea-search MD.
-
-Lived SCOUT/LOCKIN halt / redeem / env-mix is **fixture evidence**, not the pitch. Do not unhalt production. Do not copy SCOUT code into this repo.
+Track 1 is the fit: Skill 25% + audit 20% + uncrowded surface (Higress OSS coarse ACL; traces without enforcement). Halt / redeem / peer-env events are **attack fixtures**, not a trading pitch.
 
 ---
 
@@ -310,7 +305,7 @@ Gateway holds credentials. Workers receive `ALLOW`/`BLOCK` JSON only.
 
 ## 11. Fixtures (attack pack)
 
-Use SCOUT/LOCKIN scars as **attacks**, not as “we built a trader.”
+Halt / redeem / peer-env events are **attack fixtures**, not a trading product.
 
 | Fixture | Attempt | Expected |
 |---|---|---|
@@ -320,7 +315,7 @@ Use SCOUT/LOCKIN scars as **attacks**, not as “we built a trader.”
 | `fixtures/allow-health.json` | `toollaw.health` | ALLOW, read only |
 | `fixtures/policy.v0.json` | compiled allowlist input | `toollaw.compile` output hash |
 
-Do not run these against `/opt/scout` or `/opt/lockin`. Do not put keys in the repo.
+Do not put secrets in the repo. Fixtures are synthetic.
 
 ---
 
@@ -348,7 +343,7 @@ Kill beat: Red Team cannot stamp its own ticket.
 | Multi-agent 25 | Five identities, 8-step loop, fail-closed branches |
 | Skill 25 | Compile / enforce / redteam / evidence / approve / health / capture — not one mega-prompt |
 | Audit 20 | policyHash + sha256 receipts + non-execution proof |
-| OSS 5 | Apache-2.0, no secret dumps, Skills reusable off the trading desk |
+| OSS 5 | Apache-2.0, no secret dumps, reusable Skills |
 
 ---
 
@@ -357,7 +352,7 @@ Kill beat: Red Team cannot stamp its own ticket.
 | When | Build |
 |---|---|
 | **Tonight / Aug 16** | Prelim pack: intro, HTML→PDF, identities, Skill MDs, contracts, fixtures, zip |
-| **Aug 17–24** | AgentTeams **sidecar** on a VM or local Docker — never overwrite `/opt/scout` or `/opt/lockin` |
+| **Aug 17–24** | AgentTeams sidecar + crew on the dedicated VM |
 | **Aug 25–Sep 3** | Film: BLOCK → ALLOW read → peer BLOCK → evidence zip |
 | **Sep 22** | Same loop live in Hangzhou |
 
@@ -367,13 +362,11 @@ Prelim form: work title `TOOLLAW` · org Accra Technical University · Founder /
 
 ## 15. Hard rules
 
-- No trading strategy as the submission.  
-- No PROOFLOOP revival as the product.  
-- No SCOUT/LOCKIN/AFTERCUT **code** in this repo. Fixtures may name those scars in JSON.  
-- Do not unhalt SCOUT. Do not write `/opt/scout` or `/opt/lockin`.  
-- Tavily + TinyFish (`X-API-Key`) from `scoutbot/agent/.env` for fact-check. Tavily **answers** can be wrong (e.g. “MCP required”) — handbook wins: **Skill mandatory, MCP recommended**.  
-- Do not claim Tavily proved Higress Enterprise vs OSS tool ACL; cite HiClaw blog as best source and mark **partial**.  
-- Ask before git push. No Lovable history rewrites if this repo ever connects.
+- No trading strategy as the submission.
+- Skills are mandatory; MCP-shaped contracts are first-class.
+- Default fail-closed. Human L3 cannot be the attacker.
+- Do not put secrets in git.
+- Do not claim Higress OSS already does tool-arg IAM; close that gap with Skills.
 
 ---
 
@@ -408,4 +401,4 @@ T3 SKILLCI · T2 HANDSHAKE · T4 INCIDENT-CR — scored in the idea-search MD. L
 
 See `docs/NEW_CHAT_PASTE.md`. Short:
 
-> TOOLLAW bible in `docs/TOOLLAW_BIBLE.md`. GOAI Agent Infra. Prelim 16 Aug CST. Fail-closed tool allowlist on AgentTeams. Do not touch SCOUT/LOCKIN/AFTERCUT. Ask before git push.
+> TOOLLAW bible in `docs/TOOLLAW_BIBLE.md`. GOAI Agent Infra. Prelim 16 Aug CST. Fail-closed tool allowlist on AgentTeams. Judge pack: `docs/PRELIM_HANDBOOK.md`.

@@ -17,7 +17,6 @@ Local stdio: `npm run mcp`
 | `toollaw.film` | Skill + MCP tool | BLOCK→ALLOW→BLOCK→zip | 3 Sep video |
 | `toollaw.otel` | Skill + MCP tool | OTLP JSON | collector on compose |
 | `fixture.*` | Attack surface | never executes | never live `/opt` |
-| Higress OSS binary | Gateway | **shaped adapter shipped**; Hangzhou binary not installed here | attach on VM |
-| SCOUT/LOCKIN APIs | out of scope | never wired | never wired |
+| Higress OSS | Gateway | console on the sidecar VM; tool-arg IAM is TOOLLAW Skills | same |
 
 Default for unknown tools: **BLOCK**.

@@ -1,31 +1,23 @@
-# GOAI upload checklist (prelim)
+# GOAI prelim upload — TOOLLAW
 
 Site: https://www.goaihz.com/ · Work submission · Track **Agent Infra**  
-Last successful attempt before **2026-08-16 23:59 CST** counts (3 attempts).
+Last successful attempt before **2026-08-16 23:59 CST** counts (up to 3 attempts).
 
-## What the form needs
+## Form fields
 
-| Field | Required? | What to put |
-|---|---|---|
-| Work title | yes | `TOOLLAW` |
-| Project introduction | yes | paste `docs/PRELIM_INTRO.txt` (472 characters, keep ≤500) |
-| Proposal PPT/PDF | yes | `docs/PRELIM_PROPOSAL.pdf` |
-| Attachment zip | yes if asked | re-zip bible + skills + contracts + fixtures + this PDF |
-| University | yes | Accra Technical University |
-| Role | yes | Founder (member 2: Co-founder) |
-| **Repository URL** | **no** | optional — you *may* paste `https://github.com/henrysammarfo/toollaww` |
-| **Demo URL** | optional | **https://toollaww.vercel.app** (MCP: `/api/mcp`) |
-| **Demo video** | **no** | not required for prelim |
+| Field | Put this |
+|---|---|
+| Work title | `TOOLLAW` |
+| Project introduction | paste `docs/PRELIM_INTRO.txt` (keep ≤500 characters) |
+| Proposal PPT/PDF | print `docs/PRELIM_PROPOSAL.html` to PDF, or use `docs/PRELIM_PROPOSAL.md` |
+| Attachment zip | handbook + `skills/` + `contracts/` + `fixtures/` + proposal PDF |
+| University | Accra Technical University |
+| Repository URL (optional) | `https://github.com/henrysammarfo/toollaww` |
+| Demo URL (optional) | `https://toollaww.vercel.app` |
 
-Semi-final **3 Sep** is when a runnable AgentTeams demo / video is required. Do not wait until then to build — start now — but do not block tonight’s form on a deploy.
+Handbook for the zip: `docs/PRELIM_HANDBOOK.md` (TOOLLAW product only).
 
-## You must fill (I will not invent)
+## You must fill
 
 - Recipient name / phone / address (T-shirt)
-- T-shirt sizes (1) and (2)
-
-## Do not
-
-- Upload production keys, wallet secrets, or SCOUT/LOCKIN `.env`
-- Unhalt SCOUT from this work
-- Submit the old PROOFLOOP zip
+- T-shirt sizes
