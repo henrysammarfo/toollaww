@@ -27,4 +27,4 @@ Pass: **2026-08-16T10:40Z** · raw: `docs/memory/research-raw/goai-handbook-2026
 
 ## Product lock (unchanged)
 
-TOOLLAW ≠ handbook Direction 1 ITSM ≠ AgentTeams demo 4. Fixtures only. Never `/opt/scout` `/opt/lockin`.
+TOOLLAW ≠ handbook Direction 1 ITSM ≠ AgentTeams demo 4. Attack fixtures are synthetic.

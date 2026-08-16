@@ -1,28 +1,8 @@
-# SECRETS POLICY
+# Secrets
 
-**Never commit API keys. Never write them into `docs/memory/`.**
+Never commit API keys, tokens, private keys, or admin passwords.
 
-## Research (already have)
-
-| Key | Where | Use |
-|---|---|---|
-| `TAVILY_API_KEY` | `scoutbot/agent/.env` | Fact-check only |
-| `TINYFISH_API_KEY` | same, header `X-API-Key` | Page scrape only |
-
-Do not wire these into `toollaw.enforce`. Gate stays deterministic.
-
-## AgentTeams LLM (Henry 2026-08-16)
-
-- Provider: **OpenAI-compatible** (`https://api.openai.com/v1`)
-- A project key was **pasted in chat**. Treat as **leaked**.
-- **Rotate it now** at https://platform.openai.com/api-keys then put the **new** key only in a gitignored file:
-  - `toollaww/deploy/agentteams/.env` (see `env.example`)
-- Do not reuse the leaked string. Do not put it on `scout-trader`. Do not put it in GitHub Actions logs.
-
-## Hangzhou / Higress registry
-
-Not a key. Image pull. Prefer `higress-registry.us-west-1.cr.aliyuncs.com` from Ghana/US if Hangzhou is slow.
-
-## GitHub PAT
-
-Optional. Skip unless Workers must talk to GitHub.
+- Research keys stay in a local gitignored `.env`, not in this repo.
+- AgentTeams LLM keys and dashboard/Element passwords live only on the demo VM.
+- Gateway holds credentials. Workers receive ALLOW / BLOCK JSON only.
+- Rotate any key that was ever pasted in chat or a screenshot.
