@@ -1,6 +1,7 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import {
   Activity,
+  Box,
   FileLock2,
   Radar,
   Repeat,
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/dashboard")({
 const nav = [
   { to: "/dashboard", label: "Overview", Icon: Activity, exact: true },
   { to: "/dashboard/loop", label: "Loop", Icon: Repeat },
+  { to: "/dashboard/sidecar", label: "Sidecar", Icon: Box },
   { to: "/dashboard/policies", label: "Policies", Icon: FileLock2 },
   { to: "/dashboard/attacks", label: "Red Team", Icon: Radar },
   { to: "/dashboard/approvals", label: "Approvals", Icon: UserCheck },

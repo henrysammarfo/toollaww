@@ -98,8 +98,8 @@ function PoliciesPage() {
             </div>
           </dl>
           <p className="mt-6 rounded-xl border border-border bg-black/30 p-4 text-xs leading-relaxed text-muted-foreground">
-            Hash is sha256 of the source you compile. Runtime enforce still loads the shipped
-            fixture policy until AgentTeams sidecar (3 Sep).
+            Hash is sha256 of the source you compile. Runtime enforce loads the shipped fixture
+            policy. Sidecar CRs attach the same Skills.
           </p>
         </section>
       </div>

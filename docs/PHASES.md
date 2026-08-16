@@ -4,6 +4,8 @@ No auth. No sessions. No tenants. No login cookies. Open console. Fixtures never
 
 **Clock:** Prelim **2026-08-16 23:59 China Standard Time** = **15:59 Ghana**. Semi demo **3 Sep**. Hangzhou **22–23 Sep**.
 
+**Henry bar:** every optional is mandatory. Industry / enterprise / production grade. Ship the complex loop fully.
+
 ---
 
 ## Phase 0 — Prelim kernel (DONE)
@@ -20,7 +22,7 @@ Live site + fail-closed MCP.
 
 ---
 
-## Phase 1 — Law in the path (NOW)
+## Phase 1 — Law in the path (DONE)
 
 Gateway sits **in front of** tools. BLOCK becomes a captured deny Skill. Every call gets a trace.
 
@@ -31,13 +33,11 @@ Gateway sits **in front of** tools. BLOCK becomes a captured deny Skill. Every c
 | Traces | `traceId` + `spanId` on every gateway call | **done** |
 | Contact | No email. POST hashes a proposed fixture | **done** |
 
-Phase 2 in-process crew: `POST /api/crew` + console **Loop** / **Capture** pages — **started and runnable**. AgentTeams CRs still Phase 3.
-
 ---
 
-## Phase 2 — In-process crew (NOW → 24 Aug)
+## Phase 2 — In-process crew (DONE)
 
-Five roles as a **typed loop**, not K8s yet. Same object AgentTeams will carry later.
+Five roles as a typed loop. Same object the sidecar carries.
 
 | Role | Job |
 |---|---|
@@ -47,23 +47,31 @@ Five roles as a **typed loop**, not K8s yet. Same object AgentTeams will carry l
 | `aud` | Match executed=false on BLOCK, emit captures |
 | `hum` | ALLOW health only; mutate fixtures stay BLOCK |
 
-Done when: `POST /api/crew` runs compile → attack → audit → capture in one response.
+Done: `POST /api/crew` runs compile → attack → audit → capture in one response.
 
 ---
 
-## Phase 3 — AgentTeams sidecar (25 Aug → 3 Sep)
+## Phase 3 — AgentTeams sidecar (NOW → 3 Sep)
 
-Real Matrix room. Never overwrite `/opt/scout` or `/opt/lockin`. Own VM or local Docker.
+Own namespace **`toollaw-sidecar`**. Own volume **`/var/lib/toollaw`**. Never `/opt/scout` or `/opt/lockin`.
 
-- Worker / Team / Human CRs
-- Skills attached to Workers
-- Film: BLOCK → ALLOW health → peer BLOCK → evidence zip
+| Build | Done when | Status |
+|---|---|---|
+| CRs | Worker / Team / Human / Manager `agentteams.io/v1beta1` | **done** |
+| Skills on Workers | `spec.skills` + MCP `toollaw` server | **done** |
+| Matrix-shaped room | `!toollaw-crew:toollaw.local` event log | **done** |
+| Higress-shaped gate | MCP in → enforce → stub; credentials never leave Worker | **done** |
+| OTLP | `GET /api/otel` JSON export | **done** |
+| Evidence zip | `POST /api/film` | **done** |
+| Docker compose | gateway + MinIO + collector, isolated volumes | **done** |
+| Official Hangzhou images | `kubectl apply -f deploy/agentteams/toollaw-crew.yaml` on dedicated VM | **YAML ready — images not pulled here** |
+| Film | BLOCK unhalt → ALLOW health → BLOCK peer → zip | **e2e OK** `npm run e2e` · `/dashboard/sidecar` |
 
 ---
 
 ## Phase 4 — Hangzhou (10–23 Sep)
 
-Same loop live. No new product.
+Same loop live. No new product. Attach official AgentTeams controller if the VM is up.
 
 ---
 
@@ -73,3 +81,4 @@ Same loop live. No new product.
 - Trading bot / PROOFLOOP revival
 - Live unhalt / live redeem / live env patch
 - Nacos+Higress logo stack as the pitch
+- Writing `/opt/scout` or `/opt/lockin`

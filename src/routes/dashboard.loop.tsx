@@ -40,7 +40,7 @@ function LoopPage() {
             Crew loop
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            mgr → pol → red → aud. In-process. No K8s yet. No auth.
+            mgr → pol → red → aud → hum. In-process crew. Sidecar film is /dashboard/sidecar.
           </p>
         </div>
         <button

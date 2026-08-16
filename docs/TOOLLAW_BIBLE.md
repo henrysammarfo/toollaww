@@ -172,7 +172,7 @@ See §9. Each Skill has name, purpose, I/O, invocation, deps, failure, security,
 
 ### Layer 3 — Contracts
 
-Typed **`ToolLaw` object** (not a 20k-token chat dump). MCP-shaped tool descriptors now; Higress MCP adapter by Sep 3 if the sidecar is up. Secrets live in the gateway, never in Worker prompts or git.
+Typed **`ToolLaw` object** (not a 20k-token chat dump). MCP tools live. Higress-shaped adapter is `src/lib/higress.ts`. Secrets never in Worker prompts or git.
 
 ### Layer 4 — Enforcement
 
@@ -381,7 +381,7 @@ Prelim form: work title `TOOLLAW` · org Accra Technical University · Founder /
 
 | Now (prelim) | Later (semi) |
 |---|---|
-| Markdown Skills, JSON Schema, HTML proposal, fixture JSON, Node/Python stub enforce | AgentTeams CRs (Worker/Team/Human), Matrix room, optional Higress MCP adapter |
+| Markdown Skills, JSON Schema, HTTP MCP, fail-closed kernel, AgentTeams CRs, Matrix-shaped room, Higress-shaped gate, OTLP JSON, evidence zip, Docker sidecar | Official Hangzhou `agentteams-controller` + Synapse on a dedicated VM (YAML already matches `agentteams.io/v1beta1`) |
 | Deterministic `enforce` as a pure function | Same function behind the gateway |
 
 Prelim does **not** require a running cluster. Semi does.

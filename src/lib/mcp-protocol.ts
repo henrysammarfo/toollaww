@@ -2,6 +2,9 @@ import { compileArtifact, gatedCall, issueTicket, policyHash, runAttackPack } fr
 import { policy } from "./enforce.ts";
 import { gatewayDispatch } from "./gateway.ts";
 import { runCrew, proposeFixture } from "./crew.ts";
+import { runSidecar, filmSidecar } from "./sidecar.ts";
+import { spansToOtlp } from "./otel.ts";
+import { manifestBundle } from "./agentteams-crs.ts";
 
 export type JsonRpcReq = {
   jsonrpc?: string;
@@ -102,6 +105,21 @@ const tools = [
       required: ["tool"],
     },
   },
+  {
+    name: "toollaw.sidecar",
+    description: "AgentTeams sidecar: CRs, Matrix room, Higress-shaped gate, OTLP. Never /opt/scout or /opt/lockin.",
+    inputSchema: { type: "object", properties: { home: { type: "string" } } },
+  },
+  {
+    name: "toollaw.film",
+    description: "Film path: BLOCK unhalt → ALLOW health → BLOCK peer env → evidence zip.",
+    inputSchema: { type: "object", properties: {} },
+  },
+  {
+    name: "toollaw.otel",
+    description: "Export last sidecar film as OTLP/HTTP JSON.",
+    inputSchema: { type: "object", properties: {} },
+  },
 ];
 
 async function callTool(name: string, args: Record<string, unknown>): Promise<unknown> {
@@ -143,6 +161,28 @@ async function callTool(name: string, args: Record<string, unknown>): Promise<un
         args: (args["args"] as Record<string, unknown> | undefined) ?? {},
         note: String(args["note"] ?? ""),
       });
+    case "toollaw.sidecar": {
+      const run = await runSidecar({
+        home: typeof args["home"] === "string" ? args["home"] : undefined,
+        includeZip: false,
+      });
+      return { ...run, crds: manifestBundle(), evidence: { ...run.evidence, zipBase64: "" } };
+    }
+    case "toollaw.film": {
+      const run = await filmSidecar({ includeZip: false });
+      return {
+        state: run.state,
+        auditor: run.auditor,
+        room: run.room,
+        evidence: { ...run.evidence, zipBase64: "" },
+        zip: "POST /api/film",
+        tools: run.attacks.map((a) => ({ tool: a.receipt.tool, decision: a.receipt.decision })),
+      };
+    }
+    case "toollaw.otel": {
+      const run = await runSidecar({ includeZip: false });
+      return spansToOtlp(run.attacks.map((a) => a.span));
+    }
     default:
       throw new Error(`unknown-tool:${name}`);
   }
@@ -159,7 +199,7 @@ export async function handleMcp(req: JsonRpcReq): Promise<JsonRpcRes> {
         id,
         result: {
           protocolVersion: "2024-11-05",
-          serverInfo: { name: "toollaw", version: "0.1.0" },
+          serverInfo: { name: "toollaw", version: "0.3.0" },
           capabilities: { tools: {} },
         },
       };

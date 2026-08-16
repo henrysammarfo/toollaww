@@ -16,8 +16,8 @@ SCOUT / LOCKIN / AFTERCUT stay in the aftercut+scoutbot chat. Do not unhalt SCOU
 
 ## Now (2026-08-15)
 
-Phases locked in `docs/PHASES.md`. **No auth / sessions / tenants.**
-Building Phase 1 (gateway, capture, traces, contact hash) and Phase 2 in-process crew.
-AgentTeams sidecar = Phase 3 (3 Sep). Never `/opt/scout` or `/opt/lockin`.
+**Phase 3 sidecar shipped:** CRs, Matrix-shaped room, Higress-shaped MCP, OTLP, evidence zip, Docker compose under `deploy/agentteams/`. HTTP e2e: `npm run e2e` (CLOSED, 3 BLOCK / 1 ALLOW, PK zip, 12 MCP tools). Namespace `toollaw-sidecar`. Home `/var/lib/toollaw`. Never `/opt/scout` or `/opt/lockin`.
+
+Official AgentTeams controller images from Hangzhou registry are **YAML-ready, not pulled** in this workspace. Film path: `/dashboard/sidecar` + `POST /api/film`.
 
 Ask before git push.

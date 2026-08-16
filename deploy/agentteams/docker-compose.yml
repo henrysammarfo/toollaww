@@ -1,0 +1,55 @@
+# TOOLLAW AgentTeams sidecar. Isolated volume. NEVER bind /opt/scout or /opt/lockin.
+name: toollaw-sidecar
+
+services:
+  toollaw-gateway:
+    build:
+      context: ../..
+      dockerfile: deploy/agentteams/Dockerfile
+    image: toollaw-sidecar:local
+    container_name: toollaw-gateway
+    environment:
+      TOOLLAW_SIDECAR_HOME: /var/lib/toollaw
+      PORT: "8787"
+    volumes:
+      - toollaw_data:/var/lib/toollaw
+    ports:
+      - "8787:8787"
+    restart: unless-stopped
+    networks:
+      - toollaw-net
+
+  minio:
+    image: minio/minio:latest
+    container_name: toollaw-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: toollaw
+      MINIO_ROOT_PASSWORD: toollaw-sidecar-dev
+    volumes:
+      - toollaw_minio:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      - toollaw-net
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.128.0
+    container_name: toollaw-otel
+    volumes:
+      - ./otel-collector.yaml:/etc/otelcol-contrib/config.yaml:ro
+    ports:
+      - "4318:4318"
+    networks:
+      - toollaw-net
+
+networks:
+  toollaw-net:
+    name: toollaw-sidecar-net
+
+volumes:
+  toollaw_data:
+    name: toollaw-sidecar-data
+  toollaw_minio:
+    name: toollaw-sidecar-minio

@@ -164,6 +164,20 @@ export const skills = [
     purpose: "Allowed read path used to prove the gate is not simply blocking everything.",
   },
   {
+    name: "toollaw.sidecar",
+    mutate: "room + CRs (isolated)",
+    approval: "no",
+    slot: "context / tools",
+    purpose: "Reconciles AgentTeams CRs in toollaw-sidecar. Never writes /opt/scout or /opt/lockin.",
+  },
+  {
+    name: "toollaw.film",
+    mutate: "evidence zip",
+    approval: "no",
+    slot: "evidence",
+    purpose: "Judge sequence: BLOCK unhalt, ALLOW health, BLOCK peer env, hashed zip.",
+  },
+  {
     name: "toollaw.deny-unhalt",
     mutate: "no",
     approval: "n/a",
@@ -185,7 +199,7 @@ export const loopSteps = [
 
 export const stats = [
   { glyph: "#", target: 5, suffix: "", decimals: 0, label: "Named Roles" },
-  { glyph: "*", target: 7, suffix: "", decimals: 0, label: "Mandatory Skills" },
+  { glyph: "*", target: 9, suffix: "", decimals: 0, label: "Mandatory Skills" },
   { glyph: "<", target: 3, suffix: "", decimals: 0, label: "Attack BLOCKs" },
   { glyph: "%", target: 8, suffix: "", decimals: 0, label: "Loop Slots" },
 ];

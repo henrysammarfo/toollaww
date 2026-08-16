@@ -11,7 +11,7 @@ Prelim clock (Hangzhou): **2026-08-16 23:59 China Standard Time** = **15:59 Ghan
 
 Tool-level allowlist + fail-closed red team on AgentTeams.
 
-**Phases:** [`docs/PHASES.md`](docs/PHASES.md) — 0 done · 1 gateway/capture/traces · 2 in-process crew · 3 AgentTeams sidecar · 4 Hangzhou  
+**Phases:** [`docs/PHASES.md`](docs/PHASES.md) — 0–2 done · **3 sidecar in repo** · 4 Hangzhou  
 **Prelim submit:** [`docs/SUBMIT.md`](docs/SUBMIT.md) · zip on Desktop `TOOLLAW-GOAI-prelim.zip`
 
 Not a trading bot. Not handbook ITSM. Not AgentTeams demo 4. Apache-2.0. No secrets in git.
@@ -30,7 +30,17 @@ MCP (stdio):
 npm run mcp
 ```
 
-HTTP (after `npm run dev` or on Vercel):
+Sidecar (isolated; never `/opt/scout` or `/opt/lockin`):
+
+```sh
+npm test
+npm run e2e
+npm run sidecar
+docker compose -f deploy/agentteams/docker-compose.yml up --build
+```
+
+Console: `/dashboard/sidecar` · film zip: `POST /api/film` · OTLP: `GET /api/otel`
+
 
 ```sh
 curl -s https://toollaww.vercel.app/api/mcp

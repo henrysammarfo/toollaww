@@ -21,6 +21,9 @@ import { Route as ApiCrewRouteImport } from './routes/api/crew'
 import { Route as ApiGatewayRouteImport } from './routes/api/gateway'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiMcpRouteImport } from './routes/api/mcp'
+import { Route as ApiOtelRouteImport } from './routes/api/otel'
+import { Route as ApiFilmRouteImport } from './routes/api/film'
+import { Route as ApiSidecarRouteImport } from './routes/api/sidecar'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardApprovalsRouteImport } from './routes/dashboard.approvals'
 import { Route as DashboardAttacksRouteImport } from './routes/dashboard.attacks'
@@ -29,6 +32,7 @@ import { Route as DashboardEvidenceRouteImport } from './routes/dashboard.eviden
 import { Route as DashboardLoopRouteImport } from './routes/dashboard.loop'
 import { Route as DashboardPoliciesRouteImport } from './routes/dashboard.policies'
 import { Route as DashboardRolesRouteImport } from './routes/dashboard.roles'
+import { Route as DashboardSidecarRouteImport } from './routes/dashboard.sidecar'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -90,6 +94,21 @@ const ApiMcpRoute = ApiMcpRouteImport.update({
   path: '/api/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiOtelRoute = ApiOtelRouteImport.update({
+  id: '/api/otel',
+  path: '/api/otel',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiFilmRoute = ApiFilmRouteImport.update({
+  id: '/api/film',
+  path: '/api/film',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSidecarRoute = ApiSidecarRouteImport.update({
+  id: '/api/sidecar',
+  path: '/api/sidecar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -130,6 +149,11 @@ const DashboardRolesRoute = DashboardRolesRouteImport.update({
   path: '/roles',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardSidecarRoute = DashboardSidecarRouteImport.update({
+  id: '/sidecar',
+  path: '/sidecar',
+  getParentRoute: () => DashboardRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -144,6 +168,9 @@ export interface FileRoutesByFullPath {
   '/api/gateway': typeof ApiGatewayRoute
   '/api/health': typeof ApiHealthRoute
   '/api/mcp': typeof ApiMcpRoute
+  '/api/otel': typeof ApiOtelRoute
+  '/api/film': typeof ApiFilmRoute
+  '/api/sidecar': typeof ApiSidecarRoute
   '/dashboard/approvals': typeof DashboardApprovalsRoute
   '/dashboard/attacks': typeof DashboardAttacksRoute
   '/dashboard/captures': typeof DashboardCapturesRoute
@@ -151,6 +178,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/loop': typeof DashboardLoopRoute
   '/dashboard/policies': typeof DashboardPoliciesRoute
   '/dashboard/roles': typeof DashboardRolesRoute
+  '/dashboard/sidecar': typeof DashboardSidecarRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
@@ -165,6 +193,9 @@ export interface FileRoutesByTo {
   '/api/gateway': typeof ApiGatewayRoute
   '/api/health': typeof ApiHealthRoute
   '/api/mcp': typeof ApiMcpRoute
+  '/api/otel': typeof ApiOtelRoute
+  '/api/film': typeof ApiFilmRoute
+  '/api/sidecar': typeof ApiSidecarRoute
   '/dashboard/approvals': typeof DashboardApprovalsRoute
   '/dashboard/attacks': typeof DashboardAttacksRoute
   '/dashboard/captures': typeof DashboardCapturesRoute
@@ -172,6 +203,7 @@ export interface FileRoutesByTo {
   '/dashboard/loop': typeof DashboardLoopRoute
   '/dashboard/policies': typeof DashboardPoliciesRoute
   '/dashboard/roles': typeof DashboardRolesRoute
+  '/dashboard/sidecar': typeof DashboardSidecarRoute
   '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
@@ -188,6 +220,9 @@ export interface FileRoutesById {
   '/api/gateway': typeof ApiGatewayRoute
   '/api/health': typeof ApiHealthRoute
   '/api/mcp': typeof ApiMcpRoute
+  '/api/otel': typeof ApiOtelRoute
+  '/api/film': typeof ApiFilmRoute
+  '/api/sidecar': typeof ApiSidecarRoute
   '/dashboard/approvals': typeof DashboardApprovalsRoute
   '/dashboard/attacks': typeof DashboardAttacksRoute
   '/dashboard/captures': typeof DashboardCapturesRoute
@@ -195,6 +230,7 @@ export interface FileRoutesById {
   '/dashboard/loop': typeof DashboardLoopRoute
   '/dashboard/policies': typeof DashboardPoliciesRoute
   '/dashboard/roles': typeof DashboardRolesRoute
+  '/dashboard/sidecar': typeof DashboardSidecarRoute
   '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
@@ -212,6 +248,9 @@ export interface FileRouteTypes {
     | '/api/gateway'
     | '/api/health'
     | '/api/mcp'
+    | '/api/otel'
+    | '/api/film'
+    | '/api/sidecar'
     | '/dashboard/approvals'
     | '/dashboard/attacks'
     | '/dashboard/captures'
@@ -219,6 +258,7 @@ export interface FileRouteTypes {
     | '/dashboard/loop'
     | '/dashboard/policies'
     | '/dashboard/roles'
+    | '/dashboard/sidecar'
     | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -233,6 +273,9 @@ export interface FileRouteTypes {
     | '/api/gateway'
     | '/api/health'
     | '/api/mcp'
+    | '/api/otel'
+    | '/api/film'
+    | '/api/sidecar'
     | '/dashboard/approvals'
     | '/dashboard/attacks'
     | '/dashboard/captures'
@@ -240,6 +283,7 @@ export interface FileRouteTypes {
     | '/dashboard/loop'
     | '/dashboard/policies'
     | '/dashboard/roles'
+    | '/dashboard/sidecar'
     | '/dashboard'
   id:
     | '__root__'
@@ -255,6 +299,9 @@ export interface FileRouteTypes {
     | '/api/gateway'
     | '/api/health'
     | '/api/mcp'
+    | '/api/otel'
+    | '/api/film'
+    | '/api/sidecar'
     | '/dashboard/approvals'
     | '/dashboard/attacks'
     | '/dashboard/captures'
@@ -262,6 +309,7 @@ export interface FileRouteTypes {
     | '/dashboard/loop'
     | '/dashboard/policies'
     | '/dashboard/roles'
+    | '/dashboard/sidecar'
     | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
@@ -278,6 +326,9 @@ export interface RootRouteChildren {
   ApiGatewayRoute: typeof ApiGatewayRoute
   ApiHealthRoute: typeof ApiHealthRoute
   ApiMcpRoute: typeof ApiMcpRoute
+  ApiOtelRoute: typeof ApiOtelRoute
+  ApiFilmRoute: typeof ApiFilmRoute
+  ApiSidecarRoute: typeof ApiSidecarRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -366,6 +417,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiMcpRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/otel': {
+      id: '/api/otel'
+      path: '/api/otel'
+      fullPath: '/api/otel'
+      preLoaderRoute: typeof ApiOtelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/film': {
+      id: '/api/film'
+      path: '/api/film'
+      fullPath: '/api/film'
+      preLoaderRoute: typeof ApiFilmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/sidecar': {
+      id: '/api/sidecar'
+      path: '/api/sidecar'
+      fullPath: '/api/sidecar'
+      preLoaderRoute: typeof ApiSidecarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/': {
       id: '/dashboard/'
       path: '/'
@@ -422,6 +494,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRolesRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/sidecar': {
+      id: '/dashboard/sidecar'
+      path: '/sidecar'
+      fullPath: '/dashboard/sidecar'
+      preLoaderRoute: typeof DashboardSidecarRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
 
@@ -433,6 +512,7 @@ interface DashboardRouteChildren {
   DashboardLoopRoute: typeof DashboardLoopRoute
   DashboardPoliciesRoute: typeof DashboardPoliciesRoute
   DashboardRolesRoute: typeof DashboardRolesRoute
+  DashboardSidecarRoute: typeof DashboardSidecarRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
@@ -444,6 +524,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardLoopRoute: DashboardLoopRoute,
   DashboardPoliciesRoute: DashboardPoliciesRoute,
   DashboardRolesRoute: DashboardRolesRoute,
+  DashboardSidecarRoute: DashboardSidecarRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 
@@ -464,6 +545,9 @@ const rootRouteChildren: RootRouteChildren = {
   ApiGatewayRoute: ApiGatewayRoute,
   ApiHealthRoute: ApiHealthRoute,
   ApiMcpRoute: ApiMcpRoute,
+  ApiOtelRoute: ApiOtelRoute,
+  ApiFilmRoute: ApiFilmRoute,
+  ApiSidecarRoute: ApiSidecarRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

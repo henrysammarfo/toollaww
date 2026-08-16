@@ -1,0 +1,124 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: toollaw-sidecar
+  labels:
+    app.kubernetes.io/name: toollaw
+    toollaw.io/forbidden: never-opt-scout-or-lockin
+---
+apiVersion: agentteams.io/v1beta1
+kind: Manager
+metadata:
+  name: toollaw-mgr
+  namespace: toollaw-sidecar
+spec:
+  skills:
+    - toollaw.compile
+    - toollaw.crew
+  mcpServers:
+    - name: toollaw
+      url: http://toollaw-gateway.toollaw-sidecar.svc:8787/api/mcp
+      transport: http
+---
+apiVersion: agentteams.io/v1beta1
+kind: Worker
+metadata:
+  name: toollaw-pol
+  namespace: toollaw-sidecar
+  labels:
+    toollaw.io/role: pol
+spec:
+  model: qwen3.6-plus
+  runtime: qwenpaw
+  identity: |
+    Policy Compiler. Compiles allowlists. Never fires unhalt/redeem/env.patch.
+  skills:
+    - toollaw.compile
+    - toollaw.enforce
+  mcpServers:
+    - name: toollaw
+      url: http://toollaw-gateway.toollaw-sidecar.svc:8787/api/mcp
+      transport: http
+  env:
+    - name: TOOLLAW_SIDECAR_HOME
+      value: /var/lib/toollaw
+    - name: TOOLLAW_FORBIDDEN
+      value: /opt/scout,/opt/lockin
+---
+apiVersion: agentteams.io/v1beta1
+kind: Worker
+metadata:
+  name: toollaw-red
+  namespace: toollaw-sidecar
+  labels:
+    toollaw.io/role: red
+spec:
+  model: qwen3.6-plus
+  runtime: openclaw
+  identity: |
+    Red Team. Attack pack only. Cannot mint toollaw.approve.
+  skills:
+    - toollaw.redteam
+    - toollaw.health
+  mcpServers:
+    - name: toollaw
+      url: http://toollaw-gateway.toollaw-sidecar.svc:8787/api/mcp
+      transport: http
+  env:
+    - name: TOOLLAW_SIDECAR_HOME
+      value: /var/lib/toollaw
+    - name: TOOLLAW_FORBIDDEN
+      value: /opt/scout,/opt/lockin
+---
+apiVersion: agentteams.io/v1beta1
+kind: Worker
+metadata:
+  name: toollaw-aud
+  namespace: toollaw-sidecar
+  labels:
+    toollaw.io/role: aud
+spec:
+  model: qwen3.6-plus
+  runtime: qwenpaw
+  identity: |
+    Gateway Auditor. Proves executed=false on BLOCK. Cannot weaken policy.
+  skills:
+    - toollaw.enforce
+    - toollaw.evidence
+    - toollaw.health
+  mcpServers:
+    - name: toollaw
+      url: http://toollaw-gateway.toollaw-sidecar.svc:8787/api/mcp
+      transport: http
+  env:
+    - name: TOOLLAW_SIDECAR_HOME
+      value: /var/lib/toollaw
+    - name: TOOLLAW_FORBIDDEN
+      value: /opt/scout,/opt/lockin
+---
+apiVersion: agentteams.io/v1beta1
+kind: Team
+metadata:
+  name: toollaw-crew
+  namespace: toollaw-sidecar
+spec:
+  description: Fail-closed tool-law crew. Isolated from scout/lockin fleets.
+  workerMembers:
+    - name: toollaw-pol
+      role: team_leader
+    - name: toollaw-red
+      role: worker
+    - name: toollaw-aud
+      role: worker
+---
+apiVersion: agentteams.io/v1beta1
+kind: Human
+metadata:
+  name: toollaw-hum
+  namespace: toollaw-sidecar
+spec:
+  displayName: Human L3 (TOOLLAW approval tier)
+  permissionLevel: 1
+  accessibleTeams:
+    - toollaw-crew
+  note: AgentTeams permissionLevel 1 = room admin-equivalent. TOOLLAW approval tier is L3 on high-risk mutate.

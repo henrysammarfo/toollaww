@@ -11,7 +11,9 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "node --experimental-strip-types --test src/lib/kernel.test.ts",
-    "mcp": "node --experimental-strip-types mcp/stdio.ts"
+    "mcp": "node --experimental-strip-types mcp/stdio.ts",
+    "sidecar": "node --experimental-strip-types sidecar/server.ts",
+    "e2e": "node scripts/e2e-sidecar.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

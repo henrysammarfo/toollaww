@@ -9,12 +9,12 @@ export const Route = createFileRoute("/skills")({
       {
         name: "description",
         content:
-          "Seven mandatory TOOLLAW Skills: compile, enforce, redteam, evidence, approve, health and captured deny Skills, each mapped to a loop slot.",
+          "Mandatory TOOLLAW Skills: compile, enforce, redteam, evidence, approve, health, sidecar, film, captured deny.",
       },
       { property: "og:title", content: "Skills — TOOLLAW Skill Catalogue" },
       {
         property: "og:description",
-        content: "Compile, enforce, redteam, evidence, approve, health, capture.",
+        content: "Compile, enforce, redteam, evidence, approve, health, sidecar, film, capture.",
       },
     ],
   }),
